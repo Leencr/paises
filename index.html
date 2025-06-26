@@ -63,12 +63,220 @@
 
   <script>
     const paises = {
-      // (aquí va el objeto completo de países y monedas, igual que en tu código)
+      // América del Norte
       "US": { nombre: "Estados Unidos", continente: "América", moneda: "USD" },
       "CA": { nombre: "Canadá", continente: "América", moneda: "CAD" },
       "MX": { nombre: "México", continente: "América", moneda: "MXN" },
+
+      // América Central
       "CR": { nombre: "Costa Rica", continente: "América", moneda: "CRC" },
-      // ... (resto del objeto paises)
+      "PA": { nombre: "Panamá", continente: "América", moneda: "PAB" },
+      "NI": { nombre: "Nicaragua", continente: "América", moneda: "NIO" },
+      "HN": { nombre: "Honduras", continente: "América", moneda: "HNL" },
+      "SV": { nombre: "El Salvador", continente: "América", moneda: "USD" },
+      "GT": { nombre: "Guatemala", continente: "América", moneda: "GTQ" },
+      "BZ": { nombre: "Belice", continente: "América", moneda: "BZD" },
+
+      // América del Sur
+      "AR": { nombre: "Argentina", continente: "América", moneda: "ARS" },
+      "BO": { nombre: "Bolivia", continente: "América", moneda: "BOB" },
+      "BR": { nombre: "Brasil", continente: "América", moneda: "BRL" },
+      "CL": { nombre: "Chile", continente: "América", moneda: "CLP" },
+      "CO": { nombre: "Colombia", continente: "América", moneda: "COP" },
+      "EC": { nombre: "Ecuador", continente: "América", moneda: "USD" },
+      "GY": { nombre: "Guyana", continente: "América", moneda: "GYD" },
+      "PY": { nombre: "Paraguay", continente: "América", moneda: "PYG" },
+      "PE": { nombre: "Perú", continente: "América", moneda: "PEN" },
+      "SR": { nombre: "Surinam", continente: "América", moneda: "SRD" },
+      "UY": { nombre: "Uruguay", continente: "América", moneda: "UYU" },
+      "VE": { nombre: "Venezuela", continente: "América", moneda: "VES" },
+
+      // Caribe
+      "CU": { nombre: "Cuba", continente: "América", moneda: "CUP" },
+      "DO": { nombre: "República Dominicana", continente: "América", moneda: "DOP" },
+      "HT": { nombre: "Haití", continente: "América", moneda: "HTG" },
+      "JM": { nombre: "Jamaica", continente: "América", moneda: "JMD" },
+      "BS": { nombre: "Bahamas", continente: "América", moneda: "BSD" },
+      "BB": { nombre: "Barbados", continente: "América", moneda: "BBD" },
+      "TT": { nombre: "Trinidad y Tobago", continente: "América", moneda: "TTD" },
+
+      // Europa Occidental
+      "DE": { nombre: "Alemania", continente: "Europa", moneda: "EUR" },
+      "AT": { nombre: "Austria", continente: "Europa", moneda: "EUR" },
+      "BE": { nombre: "Bélgica", continente: "Europa", moneda: "EUR" },
+      "ES": { nombre: "España", continente: "Europa", moneda: "EUR" },
+      "FI": { nombre: "Finlandia", continente: "Europa", moneda: "EUR" },
+      "FR": { nombre: "Francia", continente: "Europa", moneda: "EUR" },
+      "GR": { nombre: "Grecia", continente: "Europa", moneda: "EUR" },
+      "IE": { nombre: "Irlanda", continente: "Europa", moneda: "EUR" },
+      "IT": { nombre: "Italia", continente: "Europa", moneda: "EUR" },
+      "LU": { nombre: "Luxemburgo", continente: "Europa", moneda: "EUR" },
+      "NL": { nombre: "Países Bajos", continente: "Europa", moneda: "EUR" },
+      "PT": { nombre: "Portugal", continente: "Europa", moneda: "EUR" },
+
+      // Europa del Norte
+      "DK": { nombre: "Dinamarca", continente: "Europa", moneda: "DKK" },
+      "FO": { nombre: "Islas Feroe", continente: "Europa", moneda: "DKK" },
+      "IS": { nombre: "Islandia", continente: "Europa", moneda: "ISK" },
+      "NO": { nombre: "Noruega", continente: "Europa", moneda: "NOK" },
+      "SE": { nombre: "Suecia", continente: "Europa", moneda: "SEK" },
+      "GB": { nombre: "Reino Unido", continente: "Europa", moneda: "GBP" },
+      // Europa del Este
+      "BY": { nombre: "Bielorrusia", continente: "Europa", moneda: "BYN" },
+      "BG": { nombre: "Bulgaria", continente: "Europa", moneda: "BGN" },
+      "CZ": { nombre: "República Checa", continente: "Europa", moneda: "CZK" },
+      "HU": { nombre: "Hungría", continente: "Europa", moneda: "HUF" },
+      "PL": { nombre: "Polonia", continente: "Europa", moneda: "PLN" },
+      "MD": { nombre: "Moldavia", continente: "Europa", moneda: "MDL" },
+      "RO": { nombre: "Rumanía", continente: "Europa", moneda: "RON" },
+      "RU": { nombre: "Rusia", continente: "Europa", moneda: "RUB" },
+      "SK": { nombre: "Eslovaquia", continente: "Europa", moneda: "EUR" },
+      "UA": { nombre: "Ucrania", continente: "Europa", moneda: "UAH" },
+
+      // Europa del Sur
+      "AL": { nombre: "Albania", continente: "Europa", moneda: "ALL" },
+      "BA": { nombre: "Bosnia y Herzegovina", continente: "Europa", moneda: "BAM" },
+      "HR": { nombre: "Croacia", continente: "Europa", moneda: "EUR" },
+      "SI": { nombre: "Eslovenia", continente: "Europa", moneda: "EUR" },
+      "MK": { nombre: "Macedonia del Norte", continente: "Europa", moneda: "MKD" },
+      "ME": { nombre: "Montenegro", continente: "Europa", moneda: "EUR" },
+      "RS": { nombre: "Serbia", continente: "Europa", moneda: "RSD" },
+
+      // Asia Oriental
+      "CN": { nombre: "China", continente: "Asia", moneda: "CNY" },
+      "JP": { nombre: "Japón", continente: "Asia", moneda: "JPY" },
+      "KP": { nombre: "Corea del Norte", continente: "Asia", moneda: "KPW" },
+      "KR": { nombre: "Corea del Sur", continente: "Asia", moneda: "KRW" },
+      "MN": { nombre: "Mongolia", continente: "Asia", moneda: "MNT" },
+      "TW": { nombre: "Taiwán", continente: "Asia", moneda: "TWD" },
+
+      // Sudeste Asiático
+      "BN": { nombre: "Brunéi", continente: "Asia", moneda: "BND" },
+      "KH": { nombre: "Camboya", continente: "Asia", moneda: "KHR" },
+      "PH": { nombre: "Filipinas", continente: "Asia", moneda: "PHP" },
+      "ID": { nombre: "Indonesia", continente: "Asia", moneda: "IDR" },
+      "LA": { nombre: "Laos", continente: "Asia", moneda: "LAK" },
+      "MY": { nombre: "Malasia", continente: "Asia", moneda: "MYR" },
+      "MM": { nombre: "Myanmar", continente: "Asia", moneda: "MMK" },
+      "SG": { nombre: "Singapur", continente: "Asia", moneda: "SGD" },
+      "TH": { nombre: "Tailandia", continente: "Asia", moneda: "THB" },
+      "TL": { nombre: "Timor Oriental", continente: "Asia", moneda: "USD" },
+      "VN": { nombre: "Vietnam", continente: "Asia", moneda: "VND" },
+
+      // Asia del Sur
+      "AF": { nombre: "Afganistán", continente: "Asia", moneda: "AFN" },
+      "BD": { nombre: "Bangladesh", continente: "Asia", moneda: "BDT" },
+      "BT": { nombre: "Bután", continente: "Asia", moneda: "BTN" },
+      "IN": { nombre: "India", continente: "Asia", moneda: "INR" },
+      "MV": { nombre: "Maldivas", continente: "Asia", moneda: "MVR" },
+      "NP": { nombre: "Nepal", continente: "Asia", moneda: "NPR" },
+      "PK": { nombre: "Pakistán", continente: "Asia", moneda: "PKR" },
+      "LK": { nombre: "Sri Lanka", continente: "Asia", moneda: "LKR" },
+
+      // Asia Central
+      "KZ": { nombre: "Kazajistán", continente: "Asia", moneda: "KZT" },
+      "KG": { nombre: "Kirguistán", continente: "Asia", moneda: "KGS" },
+      "TJ": { nombre: "Tayikistán", continente: "Asia", moneda: "TJS" },
+      "TM": { nombre: "Turkmenistán", continente: "Asia", moneda: "TMT" },
+      "UZ": { nombre: "Uzbekistán", continente: "Asia", moneda: "UZS" },
+
+      // Asia Occidental
+      "AM": { nombre: "Armenia", continente: "Asia", moneda: "AMD" },
+      "AZ": { nombre: "Azerbaiyán", continente: "Asia", moneda: "AZN" },
+      "BH": { nombre: "Bahrein", continente: "Asia", moneda: "BHD" },
+      "GE": { nombre: "Georgia", continente: "Asia", moneda: "GEL" },
+      "IR": { nombre: "Irán", continente: "Asia", moneda: "IRR" },
+      "IQ": { nombre: "Iraq", continente: "Asia", moneda: "IQD" },
+      "IL": { nombre: "Israel", continente: "Asia", moneda: "ILS" },
+      "JO": { nombre: "Jordania", continente: "Asia", moneda: "JOD" },
+      "KW": { nombre: "Kuwait", continente: "Asia", moneda: "KWD" },
+      "LB": { nombre: "Líbano", continente: "Asia", moneda: "LBP" },
+      "OM": { nombre: "Omán", continente: "Asia", moneda: "OMR" },
+      "QA": { nombre: "Qatar", continente: "Asia", moneda: "QAR" },
+      "SA": { nombre: "Arabia Saudita", continente: "Asia", moneda: "SAR" },
+      "SY": { nombre: "Siria", continente: "Asia", moneda: "SYP" },
+      "TR": { nombre: "Turquía", continente: "Asia", moneda: "TRY" },
+      "AE": { nombre: "Emiratos Árabes Unidos", continente: "Asia", moneda: "AED" },
+      "YE": { nombre: "Yemen", continente: "Asia", moneda: "YER" },
+      // África del Norte
+      "DZ": { nombre: "Argelia", continente: "África", moneda: "DZD" },
+      "EG": { nombre: "Egipto", continente: "África", moneda: "EGP" },
+      "LY": { nombre: "Libia", continente: "África", moneda: "LYD" },
+      "MA": { nombre: "Marruecos", continente: "África", moneda: "MAD" },
+      "SD": { nombre: "Sudán", continente: "África", moneda: "SDG" },
+      "TN": { nombre: "Túnez", continente: "África", moneda: "TND" },
+      
+      // África Occidental
+      "BJ": { nombre: "Benín", continente: "África", moneda: "XOF" },
+      "BF": { nombre: "Burkina Faso", continente: "África", moneda: "XOF" },
+      "CV": { nombre: "Cabo Verde", continente: "África", moneda: "CVE" },
+      "CI": { nombre: "Costa de Marfil", continente: "África", moneda: "XOF" },
+      "GM": { nombre: "Gambia", continente: "África", moneda: "GMD" },
+      "GH": { nombre: "Ghana", continente: "África", moneda: "GHS" },
+      "GN": { nombre: "Guinea", continente: "África", moneda: "GNF" },
+      "GW": { nombre: "Guinea-Bissau", continente: "África", moneda: "XOF" },
+      "LR": { nombre: "Liberia", continente: "África", moneda: "LRD" },
+      "ML": { nombre: "Malí", continente: "África", moneda: "XOF" },
+      "MR": { nombre: "Mauritania", continente: "África", moneda: "MRU" },
+      "NE": { nombre: "Níger", continente: "África", moneda: "XOF" },
+      "NG": { nombre: "Nigeria", continente: "África", moneda: "NGN" },
+      "SN": { nombre: "Senegal", continente: "África", moneda: "XOF" },
+      "SL": { nombre: "Sierra Leona", continente: "África", moneda: "SLL" },
+      "TG": { nombre: "Togo", continente: "África", moneda: "XOF" },
+
+      // África Central
+      "AO": { nombre: "Angola", continente: "África", moneda: "AOA" },
+      "CM": { nombre: "Camerún", continente: "África", moneda: "XAF" },
+      "CF": { nombre: "República Centroafricana", continente: "África", moneda: "XAF" },
+      "TD": { nombre: "Chad", continente: "África", moneda: "XAF" },
+      "CG": { nombre: "República del Congo", continente: "África", moneda: "XAF" },
+      "CD": { nombre: "República Democrática del Congo", continente: "África", moneda: "CDF" },
+      "GQ": { nombre: "Guinea Ecuatorial", continente: "África", moneda: "XAF" },
+      "GA": { nombre: "Gabón", continente: "África", moneda: "XAF" },
+      "ST": { nombre: "Santo Tomé y Príncipe", continente: "África", moneda: "STN" },
+
+      // África Oriental
+      "BI": { nombre: "Burundi", continente: "África", moneda: "BIF" },
+      "KM": { nombre: "Comoras", continente: "África", moneda: "KMF" },
+      "DJ": { nombre: "Yibuti", continente: "África", moneda: "DJF" },
+      "ER": { nombre: "Eritrea", continente: "África", moneda: "ERN" },
+      "ET": { nombre: "Etiopía", continente: "África", moneda: "ETB" },
+      "KE": { nombre: "Kenia", continente: "África", moneda: "KES" },
+      "MG": { nombre: "Madagascar", continente: "África", moneda: "MGA" },
+      "MW": { nombre: "Malawi", continente: "África", moneda: "MWK" },
+      "MU": { nombre: "Mauricio", continente: "África", moneda: "MUR" },
+      "MZ": { nombre: "Mozambique", continente: "África", moneda: "MZN" },
+      "RW": { nombre: "Ruanda", continente: "África", moneda: "RWF" },
+      "SC": { nombre: "Seychelles", continente: "África", moneda: "SCR" },
+      "SO": { nombre: "Somalia", continente: "África", moneda: "SOS" },
+      "SS": { nombre: "Sudán del Sur", continente: "África", moneda: "SSP" },
+      "TZ": { nombre: "Tanzania", continente: "África", moneda: "TZS" },
+      "UG": { nombre: "Uganda", continente: "África", moneda: "UGX" },
+
+      // África del Sur
+      "BW": { nombre: "Botswana", continente: "África", moneda: "BWP" },
+      "LS": { nombre: "Lesoto", continente: "África", moneda: "LSL" },
+      "NA": { nombre: "Namibia", continente: "África", moneda: "NAD" },
+      "ZA": { nombre: "Sudáfrica", continente: "África", moneda: "ZAR" },
+      "SZ": { nombre: "Eswatini", continente: "África", moneda: "SZL" },
+      "ZM": { nombre: "Zambia", continente: "África", moneda: "ZMW" },
+      "ZW": { nombre: "Zimbabue", continente: "África", moneda: "ZWL" },
+
+      // Oceanía
+      "AU": { nombre: "Australia", continente: "Oceanía", moneda: "AUD" },
+      "FJ": { nombre: "Fiyi", continente: "Oceanía", moneda: "FJD" },
+      "KI": { nombre: "Kiribati", continente: "Oceanía", moneda: "AUD" },
+      "MH": { nombre: "Islas Marshall", continente: "Oceanía", moneda: "USD" },
+      "FM": { nombre: "Micronesia", continente: "Oceanía", moneda: "USD" },
+      "NR": { nombre: "Nauru", continente: "Oceanía", moneda: "AUD" },
+      "NZ": { nombre: "Nueva Zelanda", continente: "Oceanía", moneda: "NZD" },
+      "PW": { nombre: "Palau", continente: "Oceanía", moneda: "USD" },
+      "PG": { nombre: "Papúa Nueva Guinea", continente: "Oceanía", moneda: "PGK" },
+      "WS": { nombre: "Samoa", continente: "Oceanía", moneda: "WST" },
+      "SB": { nombre: "Islas Salomón", continente: "Oceanía", moneda: "SBD" },
+      "TO": { nombre: "Tonga", continente: "Oceanía", moneda: "TOP" },
+      "TV": { nombre: "Tuvalu", continente: "Oceanía", moneda: "AUD" },
+      "VU": { nombre: "Vanuatu", continente: "Oceanía", moneda: "VUV" }
     };
 
     const colores = {
