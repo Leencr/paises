@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Conversor de País y Moneda</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .corner-button {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 1000;
+    }
+  </style>
+</head>
+<body class="bg-gray-100 min-h-screen p-6 relative flex items-center justify-center">
+  
+  <!-- ✅ Botón flotante para zona horaria -->
+  <div class="corner-button">
+    <a href="https://timezonecr.glitch.me/">
+      <button style="padding: 10px 20px; background-color: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer;">
+        Ver Zona Horaria CR
+      </button>
+    </a>
+  </div>
+  
+  <div class="bg-white shadow-xl rounded-2xl p-8 w-full max-w-lg space-y-6">
+    <h1 class="text-2xl font-bold text-center text-gray-800">🔎 País y Conversor de Moneda</h1>
+    
+    <div>
+      <label class="block text-gray-700 font-medium mb-1">Abreviatura del país (2 o 3 letras):</label>
+      <input id="codeInput" type="text" maxlength="3" class="w-full p-2 border rounded focus:outline-none focus:ring focus:ring-blue-300 uppercase" placeholder="Ej: CR o USA"/>
+    </div>
+    
+    <div id="result" class="space-y-2 text-lg font-semibold">
+      <!-- Aquí se muestran los resultados -->
+    </div>
+    
+    <div id="converter" class="hidden space-y-4">
+      <div class="flex flex-col space-y-2">
+        <label class="block text-gray-700 font-medium">Monto en moneda extranjera:</label>
+        <div class="flex items-center space-x-2">
+          <input id="amountInput" type="number" class="w-full p-2 border rounded focus:outline-none focus:ring focus:ring-blue-300" placeholder="Ej: 100"/>
+          <span id="monedaExtranjera" class="font-bold text-gray-700">GBP</span>
+        </div>
+        <p id="conversionResult" class="text-green-600 font-bold"></p>
+        <p id="conversionUSD" class="text-blue-600 font-bold"></p>
+      </div>
+
+      <div class="flex flex-col space-y-2">
+        <label class="block text-gray-700 font-medium">Monto en colones (CRC):</label>
+        <div class="flex items-center space-x-2">
+          <input id="colonesInput" type="number" class="w-full p-2 border rounded focus:outline-none focus:ring focus:ring-blue-300" placeholder="Ej: 100000"/>
+          <span class="font-bold text-gray-700">CRC</span>
+        </div>
+        <p id="conversionResultInverso" class="text-blue-600 font-bold"></p>
+      </div>
+    </div>
+    
+    <button onclick="buscar()" class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 font-bold transition">Buscar</button>
+  </div>
+
+  <script>
+    const paises = {
+      // (aquí va el objeto completo de países y monedas, igual que en tu código)
+      "US": { nombre: "Estados Unidos", continente: "América", moneda: "USD" },
+      "CA": { nombre: "Canadá", continente: "América", moneda: "CAD" },
+      "MX": { nombre: "México", continente: "América", moneda: "MXN" },
+      "CR": { nombre: "Costa Rica", continente: "América", moneda: "CRC" },
+      // ... (resto del objeto paises)
+    };
+
+    const colores = {
+      "América": "text-green-600",
+      "Europa": "text-blue-600",
+      "Asia": "text-red-600",
+      "África": "text-yellow-600",
+      "Oceanía": "text-purple-600"
+    };
+
+    async function buscar() {
+      const code = document.getElementById("codeInput").value.trim().toUpperCase();
+      const resultado = document.getElementById("result");
+      const converter = document.getElementById("converter");
+      const conversion = document.getElementById("conversionResult");
+      const conversionUSD = document.getElementById("conversionUSD");
+      const conversionInversa = document.getElementById("conversionResultInverso");
+      const amountInput = document.getElementById("amountInput");
+      const colonesInput = document.getElementById("colonesInput");
+      const monedaExtranjera = document.getElementById("monedaExtranjera");
+
+      // Limpiar resultados anteriores
+      resultado.innerHTML = "";
+      conversion.innerText = "";
+      conversionUSD.innerText = "";
+      conversionInversa.innerText = "";
+      converter.classList.add("hidden");
+
+      if (code === "") {
+        resultado.innerHTML = `
+          <p class="text-red-600 mb-2">❌ Código de país no encontrado.</p>
+          <p class="text-gray-700 mb-3">¿Quieres ver una lista más completa de países y monedas?</p>
+          <a href="listado.html">
+            <button class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition">
+              Ver listado completo
+            </button>
+          </a>
+        `;
+        return;
+      }
+
+      const pais = paises[code];
+      if (!pais) {
+        resultado.innerHTML = `<p class="text-red-600">❌ Código de país no encontrado</p>`;
+        return;
+      }
+
+      const colorClase = colores[pais.continente] || "text-gray-700";
+      monedaExtranjera.textContent = pais.moneda;
+
+      try {
+        const res = await fetch(`https://v6.exchangerate-api.com/v6/c69e9b52c7923d8b67514785/latest/${pais.moneda}`);
+        const data = await res.json();
+
+        if (!data.conversion_rates) {
+          throw new Error("No se pudieron obtener las tasas de cambio");
+        }
+
+        const tasaCRC = data.conversion_rates.CRC;
+        const tasaUSD = data.conversion_rates.USD;
+        const tasaInversa = 1 / tasaCRC;
+
+        resultado.innerHTML = `
+          <p class="${colorClase}">🌍 País: ${pais.nombre}</p>
+          <p class="text-gray-800">💰 Moneda: ${pais.moneda}</p>
+          <p class="text-sm text-gray-500">📈 1 ${pais.moneda} = ₡${tasaCRC.toFixed(2)}</p>
+          <p class="text-sm text-gray-500">📈 1 ${pais.moneda} = $${tasaUSD.toFixed(2)}</p>
+          <p class="text-sm text-gray-500">📉 ₡1 = ${tasaInversa.toFixed(4)} ${pais.moneda}</p>
+        `;
+
+        converter.classList.remove("hidden");
+
+        amountInput.oninput = () => {
+          const monto = parseFloat(amountInput.value);
+          if (!isNaN(monto)) {
+            const convertidoCRC = monto * tasaCRC;
+            const convertidoUSD = monto * tasaUSD;
+            conversion.innerText = `${monto} ${pais.moneda} ≈ ₡${convertidoCRC.toLocaleString("es-CR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+            conversionUSD.innerText = `${monto} ${pais.moneda} ≈ $${convertidoUSD.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+          } else {
+            conversion.innerText = "";
+            conversionUSD.innerText = "";
+          }
+        };
+
+        colonesInput.oninput = () => {
+          const monto = parseFloat(colonesInput.value);
+          if (!isNaN(monto)) {
+            const convertidoExtranjera = monto * tasaInversa;
+            const convertidoUSD = monto / tasaCRC * tasaUSD;
+
+            conversionInversa.innerHTML = `
+              ₡${monto.toLocaleString("es-CR")} ≈ ${convertidoExtranjera.toLocaleString("es-CR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ${pais.moneda}<br>
+              ₡${monto.toLocaleString("es-CR")} ≈ $${convertidoUSD.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+            `;
+          } else {
+            conversionInversa.innerText = "";
+          }
+        };
+
+      } catch (error) {
+        resultado.innerHTML = `
+          <p class="${colorClase}">🌍 País: ${pais.nombre}</p>
+          <p class="text-gray-800">💰 Moneda: ${pais.moneda}</p>
+          <p class="text-red-500">⚠️ Error al obtener la tasa de cambio: ${error.message}</p>
+        `;
+      }
+    }
+  </script>
+<div style="position: fixed; bottom: 20px; right: 20px; z-index: 1000;">
+  <a href="https://www.iban.com/country-codes" target="_blank" rel="noopener noreferrer">
+    <button style="padding: 10px 20px; background-color: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer;">
+      Consulta códigos país
+    </button>
+  </a>
+</div>
+</body>
+</html>
