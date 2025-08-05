@@ -9,7 +9,7 @@
     body {
       font-family: 'Cinzel', serif;
       background: url('https://www.transparenttextures.com/patterns/old-wallpaper.png'),
-                  linear-gradient(to bottom right, #1e3a8a, #93c5fd);
+                  linear-gradient(to bottom right, #064e3b, #10b981);
       background-size: auto;
       color: #1e293b;
       min-height: 100vh;
@@ -17,57 +17,7 @@
       padding-bottom: 120px; /* espacio para la firma */
     }
 
-    /* Botón flotante superior */
-    .corner-button {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      z-index: 1000;
-    }
-
-    .corner-button button {
-      background: linear-gradient(45deg, #1e3a8a, #93c5fd);
-      color: white;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: bold;
-      box-shadow: 0 0 10px rgba(147, 197, 253, 0.7);
-      transition: transform 0.3s, box-shadow 0.3s;
-    }
-
-    .corner-button button:hover {
-      transform: scale(1.1);
-      box-shadow: 0 0 20px rgba(147, 197, 253, 1);
-    }
-
-    /* Firma mágica */
-    .signature {
-      text-align: center;
-      margin-top: 40px;
-      font-family: 'Cinzel', serif;
-      position: relative;
-      z-index: 10;
-    }
-
-    .signature .main {
-      font-size: 0.9rem;
-      color: rgba(255, 255, 255, 0.9);
-      animation: glow 2s infinite alternate;
-    }
-
-    .signature .sub {
-      font-size: 0.7rem;
-      color: rgba(255, 255, 255, 0.7);
-    }
-
-    @keyframes glow {
-      from { text-shadow: 0 0 5px #fff, 0 0 10px #93c5fd, 0 0 15px #93c5fd; }
-      to { text-shadow: 0 0 10px #fff, 0 0 20px #93c5fd, 0 0 30px #93c5fd; }
-    }
-
-    /* Botón inferior derecho */
+    /* Botones flotantes */
     .code-button {
       position: fixed;
       bottom: 20px;
@@ -76,59 +26,98 @@
     }
 
     .code-button button {
-      background: linear-gradient(45deg, #1e3a8a, #93c5fd);
+      background: linear-gradient(45deg, #065f46, #34d399);
       color: white;
       padding: 10px 20px;
       border: none;
       border-radius: 8px;
       cursor: pointer;
       font-weight: bold;
-      box-shadow: 0 0 10px rgba(147, 197, 253, 0.7);
+      box-shadow: 0 0 10px rgba(16, 185, 129, 0.7);
       transition: transform 0.3s, box-shadow 0.3s;
     }
 
     .code-button button:hover {
       transform: scale(1.1);
-      box-shadow: 0 0 20px rgba(147, 197, 253, 1);
+      box-shadow: 0 0 20px rgba(16, 185, 129, 1);
     }
 
-    /* Botón inferior izquierdo */
     .home-button {
       position: fixed;
       bottom: 20px;
       left: 20px;
-      background: linear-gradient(45deg, #1e3a8a, #93c5fd);
+      background: linear-gradient(45deg, #065f46, #34d399);
       color: white;
       padding: 10px 20px;
       border-radius: 8px;
       text-decoration: none;
       font-weight: bold;
-      box-shadow: 0 0 10px rgba(147, 197, 253, 0.7);
+      box-shadow: 0 0 10px rgba(16, 185, 129, 0.7);
       transition: transform 0.3s, box-shadow 0.3s;
     }
 
     .home-button:hover {
       transform: scale(1.1);
-      box-shadow: 0 0 20px rgba(147, 197, 253, 1);
+      box-shadow: 0 0 20px rgba(16, 185, 129, 1);
+    }
+
+    /* Firma mágica */
+    .signature {
+      position: fixed;
+      bottom: 60px;
+      left: 50%;
+      transform: translateX(-50%);
+      text-align: center;
+      z-index: 10;
+      color: #d1fae5;
+    }
+
+    .signature .main {
+      font-size: 0.9rem;
+      color: #d1fae5;
+      animation: glow 2s infinite alternate;
+      position: relative;
+    }
+
+    .signature .sub {
+      font-size: 0.7rem;
+      color: rgba(209, 250, 229, 0.8);
+    }
+
+    /* Efecto destellos mágicos */
+    .sparkle {
+      position: absolute;
+      width: 5px;
+      height: 5px;
+      background: radial-gradient(circle, #10b981, #6ee7b7, transparent);
+      border-radius: 50%;
+      animation: sparkleAnim 2s infinite;
+    }
+
+    .sparkle.silver {
+      background: radial-gradient(circle, #e5e7eb, #9ca3af, transparent);
+    }
+
+    @keyframes sparkleAnim {
+      0%, 100% { transform: translateY(0) scale(1); opacity: 1; }
+      50% { transform: translateY(-10px) scale(1.5); opacity: 0.6; }
+    }
+
+    @keyframes glow {
+      from { text-shadow: 0 0 5px #10b981, 0 0 10px #34d399, 0 0 15px #a7f3d0; }
+      to { text-shadow: 0 0 10px #10b981, 0 0 20px #34d399, 0 0 30px #a7f3d0; }
     }
   </style>
 </head>
 <body class="bg-gray-100 min-h-screen p-6 relative flex items-center justify-center">
 
-  <!-- Botón flotante para zona horaria -->
-  <div class="corner-button">
-    <a href="https://leencr.github.io/timezone/">
-      <button>Ver Zona Horaria CR</button>
-    </a>
-  </div>
-
   <!-- Contenedor principal -->
   <div class="bg-white shadow-xl rounded-2xl p-8 w-full max-w-lg space-y-6 relative z-10">
-    <h1 class="text-2xl font-bold text-center text-blue-900">🔎 País y Conversor de Moneda</h1>
+    <h1 class="text-2xl font-bold text-center text-green-900">🔎 País y Conversor de Moneda</h1>
     
     <div>
       <label class="block text-gray-700 font-medium mb-1">Abreviatura del país (2 o 3 letras):</label>
-      <input id="codeInput" type="text" maxlength="3" class="w-full p-2 border rounded focus:outline-none focus:ring focus:ring-blue-300 uppercase" placeholder="Ej: CR o USA"/>
+      <input id="codeInput" type="text" maxlength="3" class="w-full p-2 border rounded focus:outline-none focus:ring focus:ring-green-300 uppercase" placeholder="Ej: CR o USA"/>
     </div>
     
     <div id="result" class="space-y-2 text-lg font-semibold"></div>
@@ -137,7 +126,7 @@
       <div class="flex flex-col space-y-2">
         <label class="block text-gray-700 font-medium">Monto en moneda extranjera:</label>
         <div class="flex items-center space-x-2">
-          <input id="amountInput" type="number" class="w-full p-2 border rounded focus:outline-none focus:ring focus:ring-blue-300" placeholder="Ej: 100"/>
+          <input id="amountInput" type="number" class="w-full p-2 border rounded focus:outline-none focus:ring focus:ring-green-300" placeholder="Ej: 100"/>
           <span id="monedaExtranjera" class="font-bold text-gray-700">GBP</span>
         </div>
         <p id="conversionResult" class="text-green-600 font-bold"></p>
@@ -147,19 +136,25 @@
       <div class="flex flex-col space-y-2">
         <label class="block text-gray-700 font-medium">Monto en colones (CRC):</label>
         <div class="flex items-center space-x-2">
-          <input id="colonesInput" type="number" class="w-full p-2 border rounded focus:outline-none focus:ring focus:ring-blue-300" placeholder="Ej: 100000"/>
+          <input id="colonesInput" type="number" class="w-full p-2 border rounded focus:outline-none focus:ring focus:ring-green-300" placeholder="Ej: 100000"/>
           <span class="font-bold text-gray-700">CRC</span>
         </div>
         <p id="conversionResultInverso" class="text-blue-600 font-bold"></p>
       </div>
     </div>
     
-    <button onclick="buscar()" class="w-full bg-blue-700 text-white py-2 rounded hover:bg-blue-800 font-bold transition">Buscar</button>
+    <button onclick="buscar()" class="w-full bg-green-700 text-white py-2 rounded hover:bg-green-800 font-bold transition">Buscar</button>
   </div>
 
   <!-- Firma mágica -->
   <div class="signature">
-    <div class="main">✨ Creado con magia Ravenclaw por ECB 🦅</div>
+    <div class="main">
+      ✨ Creado con magia Slytherin por ECB 🐍
+      <div class="sparkle" style="top:-10px; left:-20px;"></div>
+      <div class="sparkle silver" style="top:-5px; right:-15px;"></div>
+      <div class="sparkle" style="bottom:-10px; left:0;"></div>
+      <div class="sparkle silver" style="bottom:-10px; right:10px;"></div>
+    </div>
     <div class="sub">© 2025 Book Dragon Club</div>
   </div>
 
@@ -174,7 +169,7 @@
   <a href="https://leencr.github.io/" class="home-button">⬅️ Volver a la página de inicio</a>
 
   <script>
-        const paises = {
+    const paises = {
       // América del Norte
       "US": { nombre: "Estados Unidos", continente: "América", moneda: "USD" },
       "CA": { nombre: "Canadá", continente: "América", moneda: "CAD" },
