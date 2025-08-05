@@ -6,36 +6,132 @@
   <title>Conversor de País y Moneda</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
+    body {
+      font-family: 'Cinzel', serif;
+      background: url('https://www.transparenttextures.com/patterns/old-wallpaper.png'),
+                  linear-gradient(to bottom right, #1e3a8a, #93c5fd);
+      background-size: auto;
+      color: #1e293b;
+      min-height: 100vh;
+      position: relative;
+      padding-bottom: 120px; /* espacio para la firma */
+    }
+
+    /* Botón flotante superior */
     .corner-button {
       position: fixed;
       top: 20px;
       right: 20px;
       z-index: 1000;
     }
+
+    .corner-button button {
+      background: linear-gradient(45deg, #1e3a8a, #93c5fd);
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      box-shadow: 0 0 10px rgba(147, 197, 253, 0.7);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .corner-button button:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 20px rgba(147, 197, 253, 1);
+    }
+
+    /* Firma mágica */
+    .signature {
+      text-align: center;
+      margin-top: 40px;
+      font-family: 'Cinzel', serif;
+      position: relative;
+      z-index: 10;
+    }
+
+    .signature .main {
+      font-size: 0.9rem;
+      color: rgba(255, 255, 255, 0.9);
+      animation: glow 2s infinite alternate;
+    }
+
+    .signature .sub {
+      font-size: 0.7rem;
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    @keyframes glow {
+      from { text-shadow: 0 0 5px #fff, 0 0 10px #93c5fd, 0 0 15px #93c5fd; }
+      to { text-shadow: 0 0 10px #fff, 0 0 20px #93c5fd, 0 0 30px #93c5fd; }
+    }
+
+    /* Botón inferior derecho */
+    .code-button {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 1000;
+    }
+
+    .code-button button {
+      background: linear-gradient(45deg, #1e3a8a, #93c5fd);
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      box-shadow: 0 0 10px rgba(147, 197, 253, 0.7);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .code-button button:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 20px rgba(147, 197, 253, 1);
+    }
+
+    /* Botón inferior izquierdo */
+    .home-button {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      background: linear-gradient(45deg, #1e3a8a, #93c5fd);
+      color: white;
+      padding: 10px 20px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+      box-shadow: 0 0 10px rgba(147, 197, 253, 0.7);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .home-button:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 20px rgba(147, 197, 253, 1);
+    }
   </style>
 </head>
 <body class="bg-gray-100 min-h-screen p-6 relative flex items-center justify-center">
-  
-  <!-- ✅ Botón flotante para zona horaria -->
+
+  <!-- Botón flotante para zona horaria -->
   <div class="corner-button">
     <a href="https://leencr.github.io/timezone/">
-      <button style="padding: 10px 20px; background-color: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer;">
-        Ver Zona Horaria CR
-      </button>
+      <button>Ver Zona Horaria CR</button>
     </a>
   </div>
-  
-  <div class="bg-white shadow-xl rounded-2xl p-8 w-full max-w-lg space-y-6">
-    <h1 class="text-2xl font-bold text-center text-gray-800">🔎 País y Conversor de Moneda</h1>
+
+  <!-- Contenedor principal -->
+  <div class="bg-white shadow-xl rounded-2xl p-8 w-full max-w-lg space-y-6 relative z-10">
+    <h1 class="text-2xl font-bold text-center text-blue-900">🔎 País y Conversor de Moneda</h1>
     
     <div>
       <label class="block text-gray-700 font-medium mb-1">Abreviatura del país (2 o 3 letras):</label>
       <input id="codeInput" type="text" maxlength="3" class="w-full p-2 border rounded focus:outline-none focus:ring focus:ring-blue-300 uppercase" placeholder="Ej: CR o USA"/>
     </div>
     
-    <div id="result" class="space-y-2 text-lg font-semibold">
-      <!-- Aquí se muestran los resultados -->
-    </div>
+    <div id="result" class="space-y-2 text-lg font-semibold"></div>
     
     <div id="converter" class="hidden space-y-4">
       <div class="flex flex-col space-y-2">
@@ -58,11 +154,27 @@
       </div>
     </div>
     
-    <button onclick="buscar()" class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 font-bold transition">Buscar</button>
+    <button onclick="buscar()" class="w-full bg-blue-700 text-white py-2 rounded hover:bg-blue-800 font-bold transition">Buscar</button>
   </div>
 
+  <!-- Firma mágica -->
+  <div class="signature">
+    <div class="main">✨ Creado con magia Ravenclaw por ECB 🦅</div>
+    <div class="sub">© 2025 Book Dragon Club</div>
+  </div>
+
+  <!-- Botón para consultar códigos -->
+  <div class="code-button">
+    <a href="https://www.iban.com/country-codes" target="_blank" rel="noopener noreferrer">
+      <button>Consulta códigos país</button>
+    </a>
+  </div>
+
+  <!-- Botón de volver -->
+  <a href="https://leencr.github.io/" class="home-button">⬅️ Volver a la página de inicio</a>
+
   <script>
-    const paises = {
+        const paises = {
       // América del Norte
       "US": { nombre: "Estados Unidos", continente: "América", moneda: "USD" },
       "CA": { nombre: "Canadá", continente: "América", moneda: "CAD" },
@@ -386,15 +498,5 @@
       }
     }
   </script>
-<div style="position: fixed; bottom: 20px; right: 20px; z-index: 1000;">
-  <a href="https://www.iban.com/country-codes" target="_blank" rel="noopener noreferrer">
-    <button style="padding: 10px 20px; background-color: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer;">
-      Consulta códigos país
-    </button>
-  </a>
-</div>
- <a href="https://leencr.github.io/" class="fixed bottom-4 left-4 bg-indigo-600 text-white px-4 py-2 rounded shadow-lg hover:bg-indigo-700 z-50">
-  ⬅️ Volver a la pagina de inicio
-</a>
 </body>
 </html>
