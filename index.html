@@ -1,532 +1,199 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Conversor de País y Moneda</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    body {
-      font-family: 'Cinzel', serif;
-      background: linear-gradient(to bottom right, #052e16, #064e3b);
-      color: #1e293b;
-      min-height: 100vh;
-      position: relative;
-      padding-bottom: 120px; /* espacio para la firma */
-      overflow: hidden;
-    }
+<meta charset="UTF-8">
+<title>Países y conversión</title>
 
-    /* Estrellas animadas */
-    .star {
-      position: absolute;
-      width: 4px;
-      height: 4px;
-      border-radius: 50%;
-      background: radial-gradient(circle, #10b981, transparent);
-      animation: twinkle 3s infinite alternate;
-      opacity: 0.8;
-    }
+<style>
 
-    .star.silver {
-      background: radial-gradient(circle, #d1d5db, transparent);
-    }
+body{
+font-family: 'Segoe UI', sans-serif;
+margin:0;
+padding:0;
+background: linear-gradient(135deg,#0f3d2e,#021b14);
+color:white;
+text-align:center;
+}
 
-    @keyframes twinkle {
-      from { transform: scale(1); opacity: 0.7; }
-      to { transform: scale(1.5); opacity: 1; }
-    }
+/* contenedor */
 
-    /* Botones flotantes */
-    .code-button {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      z-index: 1000;
-    }
+.container{
+background:white;
+color:#1b3b2f;
+width:90%;
+max-width:700px;
+margin:60px auto;
+padding:30px;
+border-radius:15px;
+box-shadow:0 0 20px rgba(0,0,0,0.5);
+}
 
-    .code-button button {
-      background: linear-gradient(45deg, #065f46, #34d399);
-      color: white;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: bold;
-      box-shadow: 0 0 10px rgba(16, 185, 129, 0.7);
-      transition: transform 0.3s, box-shadow 0.3s;
-    }
+/* titulo */
 
-    .code-button button:hover {
-      transform: scale(1.1);
-      box-shadow: 0 0 20px rgba(16, 185, 129, 1);
-    }
+h1{
+color:#0f5132;
+margin-bottom:5px;
+}
 
-    .home-button {
-      position: fixed;
-      bottom: 20px;
-      left: 20px;
-      background: linear-gradient(45deg, #065f46, #34d399);
-      color: white;
-      padding: 10px 20px;
-      border-radius: 8px;
-      text-decoration: none;
-      font-weight: bold;
-      box-shadow: 0 0 10px rgba(16, 185, 129, 0.7);
-      transition: transform 0.3s, box-shadow 0.3s;
-    }
+/* inputs */
 
-    .home-button:hover {
-      transform: scale(1.1);
-      box-shadow: 0 0 20px rgba(16, 185, 129, 1);
-    }
+input{
+padding:10px;
+width:80%;
+margin:10px 0;
+border-radius:6px;
+border:1px solid #ccc;
+font-size:16px;
+}
 
-    /* Firma mágica */
-    .signature {
-      position: fixed;
-      bottom: 60px;
-      left: 50%;
-      transform: translateX(-50%);
-      text-align: center;
-      z-index: 10;
-      color: #d1fae5;
-    }
+/* botones */
 
-    .signature .main {
-      font-size: 0.9rem;
-      color: #d1fae5;
-      animation: glow 2s infinite alternate;
-      position: relative;
-    }
+button{
+background:silver;
+border:none;
+padding:10px 18px;
+margin:5px;
+border-radius:8px;
+font-weight:bold;
+cursor:pointer;
+transition:0.3s;
+}
 
-    .signature .sub {
-      font-size: 0.7rem;
-      color: rgba(209, 250, 229, 0.8);
-    }
+button:hover{
+background:#0f5132;
+color:white;
+}
 
-    .sparkle {
-      position: absolute;
-      width: 5px;
-      height: 5px;
-      background: radial-gradient(circle, #10b981, #6ee7b7, transparent);
-      border-radius: 50%;
-      animation: sparkleAnim 2s infinite;
-    }
+/* resultados */
 
-    .sparkle.silver {
-      background: radial-gradient(circle, #e5e7eb, #9ca3af, transparent);
-    }
+.result{
+margin-top:20px;
+font-size:18px;
+}
 
-    @keyframes sparkleAnim {
-      0%, 100% { transform: translateY(0) scale(1); opacity: 1; }
-      50% { transform: translateY(-10px) scale(1.5); opacity: 0.6; }
-    }
+/* firma */
 
-    @keyframes glow {
-      from { text-shadow: 0 0 5px #10b981, 0 0 10px #34d399, 0 0 15px #a7f3d0; }
-      to { text-shadow: 0 0 10px #10b981, 0 0 20px #34d399, 0 0 30px #a7f3d0; }
-    }
-  </style>
+.firma{
+margin-top:40px;
+font-size:18px;
+font-weight:bold;
+color:silver;
+text-shadow:0 0 8px #7fff9a;
+}
+
+</style>
 </head>
-<body class="bg-gray-100 min-h-screen p-6 relative flex items-center justify-center">
 
-  <!-- Contenedor de estrellas -->
-  <div id="stars"></div>
+<body>
 
-  <!-- Contenedor principal -->
-  <div class="bg-white shadow-xl rounded-2xl p-8 w-full max-w-lg space-y-6 relative z-10">
-    <h1 class="text-2xl font-bold text-center text-green-900">🔎 País y Conversor de Moneda</h1>
-    
-    <div>
-      <label class="block text-gray-700 font-medium mb-1">Abreviatura del país (2 o 3 letras):</label>
-      <input id="codeInput" type="text" maxlength="3" class="w-full p-2 border rounded focus:outline-none focus:ring focus:ring-green-300 uppercase" placeholder="Ej: CR o USA"/>
-    </div>
-    
-    <div id="result" class="space-y-2 text-lg font-semibold"></div>
-    
-    <div id="converter" class="hidden space-y-4">
-      <div class="flex flex-col space-y-2">
-        <label class="block text-gray-700 font-medium">Monto en moneda extranjera:</label>
-        <div class="flex items-center space-x-2">
-          <input id="amountInput" type="number" class="w-full p-2 border rounded focus:outline-none focus:ring focus:ring-green-300" placeholder="Ej: 100"/>
-          <span id="monedaExtranjera" class="font-bold text-gray-700">GBP</span>
-        </div>
-        <p id="conversionResult" class="text-green-600 font-bold"></p>
-        <p id="conversionUSD" class="text-blue-600 font-bold"></p>
-      </div>
+<div class="container">
 
-      <div class="flex flex-col space-y-2">
-        <label class="block text-gray-700 font-medium">Monto en colones (CRC):</label>
-        <div class="flex items-center space-x-2">
-          <input id="colonesInput" type="number" class="w-full p-2 border rounded focus:outline-none focus:ring focus:ring-green-300" placeholder="Ej: 100000"/>
-          <span class="font-bold text-gray-700">CRC</span>
-        </div>
-        <p id="conversionResultInverso" class="text-blue-600 font-bold"></p>
-      </div>
-    </div>
-    
-    <button onclick="buscar()" class="w-full bg-green-700 text-white py-2 rounded hover:bg-green-800 font-bold transition">Buscar</button>
-  </div>
+<h1>Países y conversión</h1>
+<p>Buscar por país o código ISO</p>
 
-  <!-- Firma mágica -->
-  <div class="signature">
-    <div class="main">
-      ✨ Creado con magia por ECB 🐍
-      <div class="sparkle" style="top:-10px; left:-20px;"></div>
-      <div class="sparkle silver" style="top:-5px; right:-15px;"></div>
-      <div class="sparkle" style="bottom:-10px; left:0;"></div>
-      <div class="sparkle silver" style="bottom:-10px; right:10px;"></div>
-    </div>
-    <div class="sub">© 2025 Book Dragon Club</div>
-  </div>
+<input id="busqueda" placeholder="Ej: Costa Rica o CR">
 
-  <!-- Botón para consultar códigos -->
-  <div class="code-button">
-    <a href="https://www.iban.com/country-codes" target="_blank" rel="noopener noreferrer">
-      <button>Consulta códigos país</button>
-    </a>
-  </div>
+<br>
 
-  <!-- Botón de volver -->
-  <a href="https://leencr.github.io/" class="home-button">✨ Volver</a>
+<button onclick="buscar()">Buscar</button>
 
-  <script>
-    // Generar estrellas
-    const starsContainer = document.getElementById('stars');
-    for (let i = 0; i < 80; i++) {
-      const star = document.createElement('div');
-      star.classList.add('star');
-      if (Math.random() > 0.5) star.classList.add('silver');
-      star.style.top = `${Math.random() * 100}vh`;
-      star.style.left = `${Math.random() * 100}vw`;
-      star.style.animationDuration = `${2 + Math.random() * 3}s`;
-      starsContainer.appendChild(star);
-    }
+<div class="result" id="resultado"></div>
 
-    const paises = {
-      // América del Norte
-      "US": { nombre: "Estados Unidos", continente: "América", moneda: "USD" },
-      "CA": { nombre: "Canadá", continente: "América", moneda: "CAD" },
-      "MX": { nombre: "México", continente: "América", moneda: "MXN" },
+<hr>
 
-      // América Central
-      "CR": { nombre: "Costa Rica", continente: "América", moneda: "CRC" },
-      "PA": { nombre: "Panamá", continente: "América", moneda: "PAB" },
-      "NI": { nombre: "Nicaragua", continente: "América", moneda: "NIO" },
-      "HN": { nombre: "Honduras", continente: "América", moneda: "HNL" },
-      "SV": { nombre: "El Salvador", continente: "América", moneda: "USD" },
-      "GT": { nombre: "Guatemala", continente: "América", moneda: "GTQ" },
-      "BZ": { nombre: "Belice", continente: "América", moneda: "BZD" },
+<h3>Conversión de moneda</h3>
 
-      // América del Sur
-      "AR": { nombre: "Argentina", continente: "América", moneda: "ARS" },
-      "BO": { nombre: "Bolivia", continente: "América", moneda: "BOB" },
-      "BR": { nombre: "Brasil", continente: "América", moneda: "BRL" },
-      "CL": { nombre: "Chile", continente: "América", moneda: "CLP" },
-      "CO": { nombre: "Colombia", continente: "América", moneda: "COP" },
-      "EC": { nombre: "Ecuador", continente: "América", moneda: "USD" },
-      "GY": { nombre: "Guyana", continente: "América", moneda: "GYD" },
-      "PY": { nombre: "Paraguay", continente: "América", moneda: "PYG" },
-      "PE": { nombre: "Perú", continente: "América", moneda: "PEN" },
-      "SR": { nombre: "Surinam", continente: "América", moneda: "SRD" },
-      "UY": { nombre: "Uruguay", continente: "América", moneda: "UYU" },
-      "VE": { nombre: "Venezuela", continente: "América", moneda: "VES" },
+<input id="montoLocal" placeholder="Monto moneda local">
 
-      // Caribe
-      "CU": { nombre: "Cuba", continente: "América", moneda: "CUP" },
-      "DO": { nombre: "República Dominicana", continente: "América", moneda: "DOP" },
-      "HT": { nombre: "Haití", continente: "América", moneda: "HTG" },
-      "JM": { nombre: "Jamaica", continente: "América", moneda: "JMD" },
-      "BS": { nombre: "Bahamas", continente: "América", moneda: "BSD" },
-      "BB": { nombre: "Barbados", continente: "América", moneda: "BBD" },
-      "TT": { nombre: "Trinidad y Tobago", continente: "América", moneda: "TTD" },
+<button onclick="convertirUSD()">Moneda → USD</button>
 
-      // Europa Occidental
-      "DE": { nombre: "Alemania", continente: "Europa", moneda: "EUR" },
-      "AT": { nombre: "Austria", continente: "Europa", moneda: "EUR" },
-      "BE": { nombre: "Bélgica", continente: "Europa", moneda: "EUR" },
-      "ES": { nombre: "España", continente: "Europa", moneda: "EUR" },
-      "FI": { nombre: "Finlandia", continente: "Europa", moneda: "EUR" },
-      "FR": { nombre: "Francia", continente: "Europa", moneda: "EUR" },
-      "GR": { nombre: "Grecia", continente: "Europa", moneda: "EUR" },
-      "IE": { nombre: "Irlanda", continente: "Europa", moneda: "EUR" },
-      "IT": { nombre: "Italia", continente: "Europa", moneda: "EUR" },
-      "LU": { nombre: "Luxemburgo", continente: "Europa", moneda: "EUR" },
-      "NL": { nombre: "Países Bajos", continente: "Europa", moneda: "EUR" },
-      "PT": { nombre: "Portugal", continente: "Europa", moneda: "EUR" },
+<br>
 
-      // Europa del Norte
-      "DK": { nombre: "Dinamarca", continente: "Europa", moneda: "DKK" },
-      "FO": { nombre: "Islas Feroe", continente: "Europa", moneda: "DKK" },
-      "IS": { nombre: "Islandia", continente: "Europa", moneda: "ISK" },
-      "NO": { nombre: "Noruega", continente: "Europa", moneda: "NOK" },
-      "SE": { nombre: "Suecia", continente: "Europa", moneda: "SEK" },
-      "GB": { nombre: "Reino Unido", continente: "Europa", moneda: "GBP" },
-      // Europa del Este
-      "BY": { nombre: "Bielorrusia", continente: "Europa", moneda: "BYN" },
-      "BG": { nombre: "Bulgaria", continente: "Europa", moneda: "BGN" },
-      "CZ": { nombre: "República Checa", continente: "Europa", moneda: "CZK" },
-      "HU": { nombre: "Hungría", continente: "Europa", moneda: "HUF" },
-      "PL": { nombre: "Polonia", continente: "Europa", moneda: "PLN" },
-      "MD": { nombre: "Moldavia", continente: "Europa", moneda: "MDL" },
-      "RO": { nombre: "Rumanía", continente: "Europa", moneda: "RON" },
-      "RU": { nombre: "Rusia", continente: "Europa", moneda: "RUB" },
-      "SK": { nombre: "Eslovaquia", continente: "Europa", moneda: "EUR" },
-      "UA": { nombre: "Ucrania", continente: "Europa", moneda: "UAH" },
+<input id="montoUSD" placeholder="Monto en USD">
 
-      // Europa del Sur
-      "AL": { nombre: "Albania", continente: "Europa", moneda: "ALL" },
-      "BA": { nombre: "Bosnia y Herzegovina", continente: "Europa", moneda: "BAM" },
-      "HR": { nombre: "Croacia", continente: "Europa", moneda: "EUR" },
-      "SI": { nombre: "Eslovenia", continente: "Europa", moneda: "EUR" },
-      "MK": { nombre: "Macedonia del Norte", continente: "Europa", moneda: "MKD" },
-      "ME": { nombre: "Montenegro", continente: "Europa", moneda: "EUR" },
-      "RS": { nombre: "Serbia", continente: "Europa", moneda: "RSD" },
+<button onclick="convertirLocal()">USD → Moneda</button>
 
-      // Asia Oriental
-      "CN": { nombre: "China", continente: "Asia", moneda: "CNY" },
-      "JP": { nombre: "Japón", continente: "Asia", moneda: "JPY" },
-      "KP": { nombre: "Corea del Norte", continente: "Asia", moneda: "KPW" },
-      "KR": { nombre: "Corea del Sur", continente: "Asia", moneda: "KRW" },
-      "MN": { nombre: "Mongolia", continente: "Asia", moneda: "MNT" },
-      "TW": { nombre: "Taiwán", continente: "Asia", moneda: "TWD" },
+<div class="result" id="conversion"></div>
 
-      // Sudeste Asiático
-      "BN": { nombre: "Brunéi", continente: "Asia", moneda: "BND" },
-      "KH": { nombre: "Camboya", continente: "Asia", moneda: "KHR" },
-      "PH": { nombre: "Filipinas", continente: "Asia", moneda: "PHP" },
-      "ID": { nombre: "Indonesia", continente: "Asia", moneda: "IDR" },
-      "LA": { nombre: "Laos", continente: "Asia", moneda: "LAK" },
-      "MY": { nombre: "Malasia", continente: "Asia", moneda: "MYR" },
-      "MM": { nombre: "Myanmar", continente: "Asia", moneda: "MMK" },
-      "SG": { nombre: "Singapur", continente: "Asia", moneda: "SGD" },
-      "TH": { nombre: "Tailandia", continente: "Asia", moneda: "THB" },
-      "TL": { nombre: "Timor Oriental", continente: "Asia", moneda: "USD" },
-      "VN": { nombre: "Vietnam", continente: "Asia", moneda: "VND" },
+<br><br>
 
-      // Asia del Sur
-      "AF": { nombre: "Afganistán", continente: "Asia", moneda: "AFN" },
-      "BD": { nombre: "Bangladesh", continente: "Asia", moneda: "BDT" },
-      "BT": { nombre: "Bután", continente: "Asia", moneda: "BTN" },
-      "IN": { nombre: "India", continente: "Asia", moneda: "INR" },
-      "MV": { nombre: "Maldivas", continente: "Asia", moneda: "MVR" },
-      "NP": { nombre: "Nepal", continente: "Asia", moneda: "NPR" },
-      "PK": { nombre: "Pakistán", continente: "Asia", moneda: "PKR" },
-      "LK": { nombre: "Sri Lanka", continente: "Asia", moneda: "LKR" },
+<button onclick="window.history.back()">Volver</button>
 
-      // Asia Central
-      "KZ": { nombre: "Kazajistán", continente: "Asia", moneda: "KZT" },
-      "KG": { nombre: "Kirguistán", continente: "Asia", moneda: "KGS" },
-      "TJ": { nombre: "Tayikistán", continente: "Asia", moneda: "TJS" },
-      "TM": { nombre: "Turkmenistán", continente: "Asia", moneda: "TMT" },
-      "UZ": { nombre: "Uzbekistán", continente: "Asia", moneda: "UZS" },
+<button onclick="window.open('https://www.iban.com/country-codes')">
+Consulta códigos país
+</button>
 
-      // Asia Occidental
-      "AM": { nombre: "Armenia", continente: "Asia", moneda: "AMD" },
-      "AZ": { nombre: "Azerbaiyán", continente: "Asia", moneda: "AZN" },
-      "BH": { nombre: "Bahrein", continente: "Asia", moneda: "BHD" },
-      "GE": { nombre: "Georgia", continente: "Asia", moneda: "GEL" },
-      "IR": { nombre: "Irán", continente: "Asia", moneda: "IRR" },
-      "IQ": { nombre: "Iraq", continente: "Asia", moneda: "IQD" },
-      "IL": { nombre: "Israel", continente: "Asia", moneda: "ILS" },
-      "JO": { nombre: "Jordania", continente: "Asia", moneda: "JOD" },
-      "KW": { nombre: "Kuwait", continente: "Asia", moneda: "KWD" },
-      "LB": { nombre: "Líbano", continente: "Asia", moneda: "LBP" },
-      "OM": { nombre: "Omán", continente: "Asia", moneda: "OMR" },
-      "QA": { nombre: "Qatar", continente: "Asia", moneda: "QAR" },
-      "SA": { nombre: "Arabia Saudita", continente: "Asia", moneda: "SAR" },
-      "SY": { nombre: "Siria", continente: "Asia", moneda: "SYP" },
-      "TR": { nombre: "Turquía", continente: "Asia", moneda: "TRY" },
-      "AE": { nombre: "Emiratos Árabes Unidos", continente: "Asia", moneda: "AED" },
-      "YE": { nombre: "Yemen", continente: "Asia", moneda: "YER" },
-      // África del Norte
-      "DZ": { nombre: "Argelia", continente: "África", moneda: "DZD" },
-      "EG": { nombre: "Egipto", continente: "África", moneda: "EGP" },
-      "LY": { nombre: "Libia", continente: "África", moneda: "LYD" },
-      "MA": { nombre: "Marruecos", continente: "África", moneda: "MAD" },
-      "SD": { nombre: "Sudán", continente: "África", moneda: "SDG" },
-      "TN": { nombre: "Túnez", continente: "África", moneda: "TND" },
-      
-      // África Occidental
-      "BJ": { nombre: "Benín", continente: "África", moneda: "XOF" },
-      "BF": { nombre: "Burkina Faso", continente: "África", moneda: "XOF" },
-      "CV": { nombre: "Cabo Verde", continente: "África", moneda: "CVE" },
-      "CI": { nombre: "Costa de Marfil", continente: "África", moneda: "XOF" },
-      "GM": { nombre: "Gambia", continente: "África", moneda: "GMD" },
-      "GH": { nombre: "Ghana", continente: "África", moneda: "GHS" },
-      "GN": { nombre: "Guinea", continente: "África", moneda: "GNF" },
-      "GW": { nombre: "Guinea-Bissau", continente: "África", moneda: "XOF" },
-      "LR": { nombre: "Liberia", continente: "África", moneda: "LRD" },
-      "ML": { nombre: "Malí", continente: "África", moneda: "XOF" },
-      "MR": { nombre: "Mauritania", continente: "África", moneda: "MRU" },
-      "NE": { nombre: "Níger", continente: "África", moneda: "XOF" },
-      "NG": { nombre: "Nigeria", continente: "África", moneda: "NGN" },
-      "SN": { nombre: "Senegal", continente: "África", moneda: "XOF" },
-      "SL": { nombre: "Sierra Leona", continente: "África", moneda: "SLL" },
-      "TG": { nombre: "Togo", continente: "África", moneda: "XOF" },
+<div class="firma">✨ ECB ✨</div>
 
-      // África Central
-      "AO": { nombre: "Angola", continente: "África", moneda: "AOA" },
-      "CM": { nombre: "Camerún", continente: "África", moneda: "XAF" },
-      "CF": { nombre: "República Centroafricana", continente: "África", moneda: "XAF" },
-      "TD": { nombre: "Chad", continente: "África", moneda: "XAF" },
-      "CG": { nombre: "República del Congo", continente: "África", moneda: "XAF" },
-      "CD": { nombre: "República Democrática del Congo", continente: "África", moneda: "CDF" },
-      "GQ": { nombre: "Guinea Ecuatorial", continente: "África", moneda: "XAF" },
-      "GA": { nombre: "Gabón", continente: "África", moneda: "XAF" },
-      "ST": { nombre: "Santo Tomé y Príncipe", continente: "África", moneda: "STN" },
+</div>
 
-      // África Oriental
-      "BI": { nombre: "Burundi", continente: "África", moneda: "BIF" },
-      "KM": { nombre: "Comoras", continente: "África", moneda: "KMF" },
-      "DJ": { nombre: "Yibuti", continente: "África", moneda: "DJF" },
-      "ER": { nombre: "Eritrea", continente: "África", moneda: "ERN" },
-      "ET": { nombre: "Etiopía", continente: "África", moneda: "ETB" },
-      "KE": { nombre: "Kenia", continente: "África", moneda: "KES" },
-      "MG": { nombre: "Madagascar", continente: "África", moneda: "MGA" },
-      "MW": { nombre: "Malawi", continente: "África", moneda: "MWK" },
-      "MU": { nombre: "Mauricio", continente: "África", moneda: "MUR" },
-      "MZ": { nombre: "Mozambique", continente: "África", moneda: "MZN" },
-      "RW": { nombre: "Ruanda", continente: "África", moneda: "RWF" },
-      "SC": { nombre: "Seychelles", continente: "África", moneda: "SCR" },
-      "SO": { nombre: "Somalia", continente: "África", moneda: "SOS" },
-      "SS": { nombre: "Sudán del Sur", continente: "África", moneda: "SSP" },
-      "TZ": { nombre: "Tanzania", continente: "África", moneda: "TZS" },
-      "UG": { nombre: "Uganda", continente: "África", moneda: "UGX" },
+<script>
 
-      // África del Sur
-      "BW": { nombre: "Botswana", continente: "África", moneda: "BWP" },
-      "LS": { nombre: "Lesoto", continente: "África", moneda: "LSL" },
-      "NA": { nombre: "Namibia", continente: "África", moneda: "NAD" },
-      "ZA": { nombre: "Sudáfrica", continente: "África", moneda: "ZAR" },
-      "SZ": { nombre: "Eswatini", continente: "África", moneda: "SZL" },
-      "ZM": { nombre: "Zambia", continente: "África", moneda: "ZMW" },
-      "ZW": { nombre: "Zimbabue", continente: "África", moneda: "ZWL" },
+const paises={
+CR:{pais:"Costa Rica",continente:"América",moneda:"Colón",codigo:"CRC",rate:540},
+MX:{pais:"México",continente:"América",moneda:"Peso mexicano",codigo:"MXN",rate:17},
+BR:{pais:"Brasil",continente:"América",moneda:"Real",codigo:"BRL",rate:5},
+AR:{pais:"Argentina",continente:"América",moneda:"Peso argentino",codigo:"ARS",rate:900},
+ES:{pais:"España",continente:"Europa",moneda:"Euro",codigo:"EUR",rate:0.92},
+US:{pais:"Estados Unidos",continente:"América",moneda:"Dólar",codigo:"USD",rate:1}
+};
 
-      // Oceanía
-      "AU": { nombre: "Australia", continente: "Oceanía", moneda: "AUD" },
-      "FJ": { nombre: "Fiyi", continente: "Oceanía", moneda: "FJD" },
-      "KI": { nombre: "Kiribati", continente: "Oceanía", moneda: "AUD" },
-      "MH": { nombre: "Islas Marshall", continente: "Oceanía", moneda: "USD" },
-      "FM": { nombre: "Micronesia", continente: "Oceanía", moneda: "USD" },
-      "NR": { nombre: "Nauru", continente: "Oceanía", moneda: "AUD" },
-      "NZ": { nombre: "Nueva Zelanda", continente: "Oceanía", moneda: "NZD" },
-      "PW": { nombre: "Palau", continente: "Oceanía", moneda: "USD" },
-      "PG": { nombre: "Papúa Nueva Guinea", continente: "Oceanía", moneda: "PGK" },
-      "WS": { nombre: "Samoa", continente: "Oceanía", moneda: "WST" },
-      "SB": { nombre: "Islas Salomón", continente: "Oceanía", moneda: "SBD" },
-      "TO": { nombre: "Tonga", continente: "Oceanía", moneda: "TOP" },
-      "TV": { nombre: "Tuvalu", continente: "Oceanía", moneda: "AUD" },
-      "VU": { nombre: "Vanuatu", continente: "Oceanía", moneda: "VUV" }
-    };
+let paisActual=null;
 
-    const colores = {
-      "América": "text-green-600",
-      "Europa": "text-blue-600",
-      "Asia": "text-red-600",
-      "África": "text-yellow-600",
-      "Oceanía": "text-purple-600"
-    };
+function buscar(){
 
-    async function buscar() {
-      const code = document.getElementById("codeInput").value.trim().toUpperCase();
-      const resultado = document.getElementById("result");
-      const converter = document.getElementById("converter");
-      const conversion = document.getElementById("conversionResult");
-      const conversionUSD = document.getElementById("conversionUSD");
-      const conversionInversa = document.getElementById("conversionResultInverso");
-      const amountInput = document.getElementById("amountInput");
-      const colonesInput = document.getElementById("colonesInput");
-      const monedaExtranjera = document.getElementById("monedaExtranjera");
+let valor=document.getElementById("busqueda").value.toUpperCase();
 
-      // Limpiar resultados anteriores
-      resultado.innerHTML = "";
-      conversion.innerText = "";
-      conversionUSD.innerText = "";
-      conversionInversa.innerText = "";
-      converter.classList.add("hidden");
+for(let code in paises){
 
-      if (code === "") {
-        resultado.innerHTML = `
-          <p class="text-red-600 mb-2">❌ Código de país no encontrado.</p>
-          <p class="text-gray-700 mb-3">¿Quieres ver una lista más completa de países y monedas?</p>
-          <a href="listado.html">
-            <button class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition">
-              Ver listado completo
-            </button>
-          </a>
-        `;
-        return;
-      }
+if(code===valor || paises[code].pais.toUpperCase()===valor){
 
-      const pais = paises[code];
-      if (!pais) {
-        resultado.innerHTML = `<p class="text-red-600">❌ Código de país no encontrado</p>`;
-        return;
-      }
+paisActual=paises[code];
 
-      const colorClase = colores[pais.continente] || "text-gray-700";
-      monedaExtranjera.textContent = pais.moneda;
+document.getElementById("resultado").innerHTML=
 
-      try {
-        const res = await fetch(`https://v6.exchangerate-api.com/v6/c69e9b52c7923d8b67514785/latest/${pais.moneda}`);
-        const data = await res.json();
+"<b>País:</b> "+paisActual.pais+"<br>"+
+"<b>Código:</b> "+code+"<br>"+
+"<b>Continente:</b> "+paisActual.continente+"<br>"+
+"<b>Moneda:</b> "+paisActual.moneda+" ("+paisActual.codigo+")";
 
-        if (!data.conversion_rates) {
-          throw new Error("No se pudieron obtener las tasas de cambio");
-        }
+return;
 
-        const tasaCRC = data.conversion_rates.CRC;
-        const tasaUSD = data.conversion_rates.USD;
-        const tasaInversa = 1 / tasaCRC;
+}
 
-        resultado.innerHTML = `
-          <p class="${colorClase}">🌍 País: ${pais.nombre}</p>
-          <p class="text-gray-800">💰 Moneda: ${pais.moneda}</p>
-          <p class="text-sm text-gray-500">📈 1 ${pais.moneda} = ₡${tasaCRC.toFixed(2)}</p>
-          <p class="text-sm text-gray-500">📈 1 ${pais.moneda} = $${tasaUSD.toFixed(2)}</p>
-          <p class="text-sm text-gray-500">📉 ₡1 = ${tasaInversa.toFixed(4)} ${pais.moneda}</p>
-        `;
+}
 
-        converter.classList.remove("hidden");
+document.getElementById("resultado").innerHTML="País no encontrado";
 
-        amountInput.oninput = () => {
-          const monto = parseFloat(amountInput.value);
-          if (!isNaN(monto)) {
-            const convertidoCRC = monto * tasaCRC;
-            const convertidoUSD = monto * tasaUSD;
-            conversion.innerText = `${monto} ${pais.moneda} ≈ ₡${convertidoCRC.toLocaleString("es-CR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-            conversionUSD.innerText = `${monto} ${pais.moneda} ≈ $${convertidoUSD.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-          } else {
-            conversion.innerText = "";
-            conversionUSD.innerText = "";
-          }
-        };
+}
 
-        colonesInput.oninput = () => {
-          const monto = parseFloat(colonesInput.value);
-          if (!isNaN(monto)) {
-            const convertidoExtranjera = monto * tasaInversa;
-            const convertidoUSD = monto / tasaCRC * tasaUSD;
+function convertirUSD(){
 
-            conversionInversa.innerHTML = `
-              ₡${monto.toLocaleString("es-CR")} ≈ ${convertidoExtranjera.toLocaleString("es-CR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ${pais.moneda}<br>
-              ₡${monto.toLocaleString("es-CR")} ≈ $${convertidoUSD.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-            `;
-          } else {
-            conversionInversa.innerText = "";
-          }
-        };
+if(!paisActual){alert("Busca un país primero");return;}
 
-      } catch (error) {
-        resultado.innerHTML = `
-          <p class="${colorClase}">🌍 País: ${pais.nombre}</p>
-          <p class="text-gray-800">💰 Moneda: ${pais.moneda}</p>
-          <p class="text-red-500">⚠️ Error al obtener la tasa de cambio: ${error.message}</p>
-        `;
-      }
-    }
-  </script>
+let monto=document.getElementById("montoLocal").value;
+
+let usd=monto/paisActual.rate;
+
+document.getElementById("conversion").innerHTML=
+monto+" "+paisActual.codigo+" = "+usd.toFixed(2)+" USD";
+
+}
+
+function convertirLocal(){
+
+if(!paisActual){alert("Busca un país primero");return;}
+
+let monto=document.getElementById("montoUSD").value;
+
+let local=monto*paisActual.rate;
+
+document.getElementById("conversion").innerHTML=
+monto+" USD = "+local.toFixed(2)+" "+paisActual.codigo;
+
+}
+
+</script>
+
 </body>
 </html>
-
-
