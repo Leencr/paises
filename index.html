@@ -11,70 +11,125 @@
 <style>
 
 body{
-font-family:'Cinzel',serif;
-background:linear-gradient(to bottom right,#052e16,#064e3b);
-min-height:100vh;
-color:white;
-padding-bottom:120px;
-}
+      font-family: 'Cinzel', serif;
+      background: linear-gradient(to bottom right, #052e16, #064e3b);
+      color: #1e293b;
+      min-height: 100vh;
+      position: relative;
+      padding-bottom: 120px; /* espacio para la firma */
+      overflow: hidden;
+    }
 
-/* estrellas */
+    /* Estrellas animadas */
+    .star {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #10b981, transparent);
+      animation: twinkle 3s infinite alternate;
+      opacity: 0.8;
+    }
 
-.star{
-position:absolute;
-width:4px;
-height:4px;
-border-radius:50%;
-background:radial-gradient(circle,#10b981,transparent);
-animation:twinkle 3s infinite alternate;
-}
+    .star.silver {
+      background: radial-gradient(circle, #d1d5db, transparent);
+    }
 
-.star.silver{
-background:radial-gradient(circle,#d1d5db,transparent);
-}
+    @keyframes twinkle {
+      from { transform: scale(1); opacity: 0.7; }
+      to { transform: scale(1.5); opacity: 1; }
+    }
 
-@keyframes twinkle{
-from{transform:scale(1);opacity:0.7}
-to{transform:scale(1.5);opacity:1}
-}
+    /* Botones flotantes */
+    .code-button {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 1000;
+    }
 
-/* botones */
+    .code-button button {
+      background: linear-gradient(45deg, #065f46, #34d399);
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      box-shadow: 0 0 10px rgba(16, 185, 129, 0.7);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
 
-.home-button{
-position:fixed;
-bottom:20px;
-left:20px;
-background:linear-gradient(45deg,#065f46,#34d399);
-padding:10px 20px;
-border-radius:8px;
-font-weight:bold;
-box-shadow:0 0 10px rgba(16,185,129,0.7);
-}
+    .code-button button:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 20px rgba(16, 185, 129, 1);
+    }
 
-.code-button{
-position:fixed;
-bottom:20px;
-right:20px;
-}
+    .home-button {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      background: linear-gradient(45deg, #065f46, #34d399);
+      color: white;
+      padding: 10px 20px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+      box-shadow: 0 0 10px rgba(16, 185, 129, 0.7);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
 
-.code-button button{
-background:linear-gradient(45deg,#065f46,#34d399);
-padding:10px 20px;
-border-radius:8px;
-font-weight:bold;
-box-shadow:0 0 10px rgba(16,185,129,0.7);
-}
+    .home-button:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 20px rgba(16, 185, 129, 1);
+    }
 
-.signature{
-position:fixed;
-bottom:0;
-width:100%;
-text-align:center;
-padding:15px;
-color:#d1fae5;
-font-size:14px;
-}
+    /* Firma mágica */
+    .signature {
+      position: fixed;
+      bottom: 60px;
+      left: 50%;
+      transform: translateX(-50%);
+      text-align: center;
+      z-index: 10;
+      color: #d1fae5;
+    }
 
+    .signature .main {
+      font-size: 0.9rem;
+      color: #d1fae5;
+      animation: glow 2s infinite alternate;
+      position: relative;
+    }
+
+    .signature .sub {
+      font-size: 0.7rem;
+      color: rgba(209, 250, 229, 0.8);
+    }
+
+    .sparkle {
+      position: absolute;
+      width: 5px;
+      height: 5px;
+      background: radial-gradient(circle, #10b981, #6ee7b7, transparent);
+      border-radius: 50%;
+      animation: sparkleAnim 2s infinite;
+    }
+
+    .sparkle.silver {
+      background: radial-gradient(circle, #e5e7eb, #9ca3af, transparent);
+    }
+
+    @keyframes sparkleAnim {
+      0%, 100% { transform: translateY(0) scale(1); opacity: 1; }
+      50% { transform: translateY(-10px) scale(1.5); opacity: 0.6; }
+    }
+
+    @keyframes glow {
+      from { text-shadow: 0 0 5px #10b981, 0 0 10px #34d399, 0 0 15px #a7f3d0; }
+      to { text-shadow: 0 0 10px #10b981, 0 0 20px #34d399, 0 0 30px #a7f3d0; }
+    }
+  
 </style>
 </head>
 
@@ -105,13 +160,6 @@ Buscar
 
 <hr class="my-4">
 
-<label>Monto en USD</label>
-<input id="usd" type="number" class="w-full p-2 rounded text-black">
-
-<button onclick="usdLocal()" class="mt-3 w-full bg-emerald-600 p-2 rounded">
-Convertir a moneda local
-</button>
-
 <label class="mt-4 block">Monto en moneda local</label>
 <input id="local" type="number" class="w-full p-2 rounded text-black">
 
@@ -120,6 +168,12 @@ Convertir a USD
 </button>
 
 <div id="conversion" class="mt-4 text-lg text-emerald-300"></div>
+<label>Monto en USD</label>
+<input id="usd" type="number" class="w-full p-2 rounded text-black">
+
+<button onclick="usdLocal()" class="mt-3 w-full bg-emerald-600 p-2 rounded">
+Convertir a moneda local
+</button>
 
 </div>
 
@@ -420,3 +474,4 @@ local+" "+actual[5]+" = "+usd.toFixed(2)+" USD";
 
 </body>
 </html>
+
