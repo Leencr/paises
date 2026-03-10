@@ -1,489 +1,798 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Países y Conversión</title>
+  <style>
+    :root {
+      --green: #2ecc71;
+      --green-dark: #1a7a40;
+      --green-glow: #00ff88;
+      --silver: #c0c0c0;
+      --silver-light: #e8e8e8;
+      --silver-dark: #888;
+      --bg-dark: #0a0f0a;
+      --bg-card: rgba(20, 35, 20, 0.85);
+      --border: rgba(46, 204, 113, 0.3);
+      --text: #d4e8d4;
+    }
 
-<title>Países y conversión</title>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
-<script src="https://cdn.tailwindcss.com"></script>
-
-<style>
-
-body{
-      font-family: 'Cinzel', serif;
-      background: linear-gradient(to bottom right, #052e16, #064e3b);
-      color: #1e293b;
+    body {
+      font-family: 'Segoe UI', Georgia, serif;
+      background: radial-gradient(ellipse at top, #0d1f0d 0%, #050a05 60%, #000 100%);
       min-height: 100vh;
-      position: relative;
-      padding-bottom: 120px; /* espacio para la firma */
-      overflow: hidden;
+      color: var(--text);
+      padding: 0 0 60px 0;
     }
 
-    /* Estrellas animadas */
-    .star {
-      position: absolute;
-      width: 4px;
-      height: 4px;
-      border-radius: 50%;
-      background: radial-gradient(circle, #10b981, transparent);
-      animation: twinkle 3s infinite alternate;
-      opacity: 0.8;
-    }
-
-    .star.silver {
-      background: radial-gradient(circle, #d1d5db, transparent);
-    }
-
-    @keyframes twinkle {
-      from { transform: scale(1); opacity: 0.7; }
-      to { transform: scale(1.5); opacity: 1; }
-    }
-
-    /* Botones flotantes */
-    .code-button {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      z-index: 1000;
-    }
-
-    .code-button button {
-      background: linear-gradient(45deg, #065f46, #34d399);
-      color: white;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: bold;
-      box-shadow: 0 0 10px rgba(16, 185, 129, 0.7);
-      transition: transform 0.3s, box-shadow 0.3s;
-    }
-
-    .code-button button:hover {
-      transform: scale(1.1);
-      box-shadow: 0 0 20px rgba(16, 185, 129, 1);
-    }
-
-    .home-button {
-      position: fixed;
-      bottom: 20px;
-      left: 20px;
-      background: linear-gradient(45deg, #065f46, #34d399);
-      color: white;
-      padding: 10px 20px;
-      border-radius: 8px;
-      text-decoration: none;
-      font-weight: bold;
-      box-shadow: 0 0 10px rgba(16, 185, 129, 0.7);
-      transition: transform 0.3s, box-shadow 0.3s;
-    }
-
-    .home-button:hover {
-      transform: scale(1.1);
-      box-shadow: 0 0 20px rgba(16, 185, 129, 1);
-    }
-
-    /* Firma mágica */
-    .signature {
-      position: fixed;
-      bottom: 60px;
-      left: 50%;
-      transform: translateX(-50%);
+    /* ── HEADER ── */
+    header {
+      background: linear-gradient(180deg, #0a1a0a 0%, #0d200d 100%);
+      border-bottom: 2px solid var(--green-dark);
+      padding: 28px 20px 18px;
       text-align: center;
-      z-index: 10;
-      color: #d1fae5;
-    }
-
-    .signature .main {
-      font-size: 0.9rem;
-      color: #d1fae5;
-      animation: glow 2s infinite alternate;
       position: relative;
     }
 
-    .signature .sub {
-      font-size: 0.7rem;
-      color: rgba(209, 250, 229, 0.8);
+    header::before {
+      content: "🐍";
+      font-size: 2rem;
+      display: block;
+      margin-bottom: 6px;
     }
 
-    .sparkle {
+    h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      background: linear-gradient(90deg, var(--green), var(--silver-light), var(--green));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .subtitle {
+      color: var(--silver-dark);
+      font-size: 0.85rem;
+      margin-top: 6px;
+      letter-spacing: 1px;
+    }
+
+    /* ── MAIN CARD ── */
+    .container {
+      max-width: 680px;
+      margin: 32px auto;
+      padding: 0 16px;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 0 30px rgba(46, 204, 113, 0.08), 0 4px 24px rgba(0,0,0,0.5);
+    }
+
+    label {
+      display: block;
+      font-size: 0.78rem;
+      color: var(--silver);
+      margin-bottom: 6px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    input[type="text"], input[type="number"] {
+      width: 100%;
+      padding: 12px 16px;
+      border-radius: 10px;
+      border: 1px solid rgba(46, 204, 113, 0.35);
+      background: rgba(0, 0, 0, 0.45);
+      color: var(--silver-light);
+      font-size: 1rem;
+      outline: none;
+      transition: border 0.2s, box-shadow 0.2s;
+    }
+
+    input[type="text"]:focus, input[type="number"]:focus {
+      border-color: var(--green);
+      box-shadow: 0 0 8px rgba(46, 204, 113, 0.25);
+    }
+
+    input::placeholder { color: #4a6a4a; }
+
+    .input-wrapper { position: relative; margin-bottom: 18px; }
+
+    /* ── AUTOCOMPLETE ── */
+    .suggestions {
       position: absolute;
-      width: 5px;
-      height: 5px;
-      background: radial-gradient(circle, #10b981, #6ee7b7, transparent);
-      border-radius: 50%;
-      animation: sparkleAnim 2s infinite;
+      background: #0d1f0d;
+      border: 1px solid rgba(46, 204, 113, 0.4);
+      border-radius: 10px;
+      max-height: 200px;
+      overflow-y: auto;
+      z-index: 200;
+      width: 100%;
+      top: calc(100% + 4px);
+      left: 0;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.6);
     }
 
-    .sparkle.silver {
-      background: radial-gradient(circle, #e5e7eb, #9ca3af, transparent);
+    .suggestion-item {
+      padding: 10px 14px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      color: var(--text);
+      transition: background 0.15s;
+      border-bottom: 1px solid rgba(46, 204, 113, 0.1);
     }
 
-    @keyframes sparkleAnim {
-      0%, 100% { transform: translateY(0) scale(1); opacity: 1; }
-      50% { transform: translateY(-10px) scale(1.5); opacity: 0.6; }
+    .suggestion-item:last-child { border-bottom: none; }
+    .suggestion-item:hover { background: rgba(46, 204, 113, 0.15); color: var(--green); }
+
+    /* ── BUTTONS ── */
+    .btn-primary {
+      width: 100%;
+      padding: 13px;
+      border-radius: 10px;
+      border: 1px solid var(--green-dark);
+      background: linear-gradient(135deg, #1a5c30 0%, #0d3a1e 100%);
+      color: var(--green);
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+      letter-spacing: 1px;
+      text-transform: uppercase;
     }
 
-    @keyframes glow {
-      from { text-shadow: 0 0 5px #10b981, 0 0 10px #34d399, 0 0 15px #a7f3d0; }
-      to { text-shadow: 0 0 10px #10b981, 0 0 20px #34d399, 0 0 30px #a7f3d0; }
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #2ecc71 0%, #1a7a40 100%);
+      color: #000;
+      box-shadow: 0 0 16px rgba(46, 204, 113, 0.4);
     }
-  
-</style>
+
+    .btn-secondary {
+      padding: 10px 18px;
+      border-radius: 8px;
+      border: 1px solid rgba(192, 192, 192, 0.4);
+      background: rgba(192, 192, 192, 0.08);
+      color: var(--silver);
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      letter-spacing: 0.5px;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(192, 192, 192, 0.18);
+      color: var(--silver-light);
+      border-color: var(--silver);
+    }
+
+    /* ── RESULT BOX ── */
+    .result-box {
+      display: none;
+      margin-top: 24px;
+      background: rgba(10, 25, 10, 0.7);
+      border: 1px solid rgba(46, 204, 113, 0.25);
+      border-radius: 12px;
+      padding: 22px;
+    }
+
+    .result-box.visible { display: block; }
+
+    .result-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .result-item label {
+      font-size: 0.7rem;
+      color: var(--silver-dark);
+      margin-bottom: 4px;
+    }
+
+    .result-item .value {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--silver-light);
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 3px 12px;
+      border-radius: 20px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    .badge-NA { background: rgba(46, 204, 113, 0.15); color: var(--green); border: 1px solid var(--green-dark); }
+    .badge-EU { background: rgba(192, 192, 192, 0.12); color: var(--silver); border: 1px solid rgba(192,192,192,0.4); }
+    .badge-FE { background: rgba(100, 200, 100, 0.12); color: #90ee90; border: 1px solid rgba(100,200,100,0.4); }
+
+    .divider {
+      border: none;
+      border-top: 1px solid rgba(46, 204, 113, 0.15);
+      margin: 18px 0;
+    }
+
+    /* ── CONVERTER ── */
+    .converter-title {
+      font-size: 0.85rem;
+      color: var(--green);
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    .converter-row {
+      display: flex;
+      gap: 10px;
+      align-items: flex-end;
+      margin-bottom: 12px;
+    }
+
+    .converter-row > div { flex: 1; }
+
+    .btn-convert {
+      flex: 0 0 auto;
+      padding: 12px 16px;
+      border-radius: 8px;
+      border: 1px solid var(--green-dark);
+      background: rgba(46, 204, 113, 0.12);
+      color: var(--green);
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+      letter-spacing: 0.5px;
+    }
+
+    .btn-convert:hover {
+      background: rgba(46, 204, 113, 0.25);
+      box-shadow: 0 0 10px rgba(46, 204, 113, 0.2);
+    }
+
+    .conversion-result {
+      display: none;
+      margin-top: 10px;
+      padding: 14px 16px;
+      background: rgba(46, 204, 113, 0.06);
+      border-radius: 10px;
+      border: 1px solid rgba(46, 204, 113, 0.2);
+    }
+
+    .conversion-result.visible { display: block; }
+
+    .amount-display {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--green);
+    }
+
+    .rate-note {
+      font-size: 0.72rem;
+      color: var(--silver-dark);
+      margin-top: 5px;
+    }
+
+    /* ── ERROR ── */
+    .error-msg {
+      display: none;
+      color: #e74c3c;
+      font-size: 0.88rem;
+      margin-top: 10px;
+      padding: 10px 14px;
+      background: rgba(231, 76, 60, 0.08);
+      border-radius: 8px;
+      border: 1px solid rgba(231, 76, 60, 0.25);
+    }
+
+    .error-msg.visible { display: block; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: linear-gradient(180deg, #0a1a0a 0%, #050a05 100%);
+      border-top: 1px solid var(--green-dark);
+      padding: 20px;
+      text-align: center;
+      margin-top: 40px;
+    }
+
+    .footer-signature {
+      font-size: 0.85rem;
+      color: var(--green);
+      margin-bottom: 6px;
+      letter-spacing: 0.5px;
+    }
+
+    .footer-copy {
+      font-size: 0.75rem;
+      color: var(--silver-dark);
+    }
+
+    /* ── NAV BUTTONS ── */
+    .nav-buttons {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 16px;
+    }
+
+    .btn-nav {
+      padding: 9px 18px;
+      border-radius: 8px;
+      border: 1px solid rgba(46, 204, 113, 0.35);
+      background: rgba(46, 204, 113, 0.07);
+      color: var(--green);
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+      letter-spacing: 0.5px;
+    }
+
+    .btn-nav:hover {
+      background: rgba(46, 204, 113, 0.18);
+      box-shadow: 0 0 10px rgba(46, 204, 113, 0.2);
+    }
+
+    .rates-note {
+      text-align: center;
+      font-size: 0.72rem;
+      color: #4a6a4a;
+      margin-top: 8px;
+      padding: 0 16px;
+    }
+
+    @media (max-width: 480px) {
+      .result-grid { grid-template-columns: 1fr; }
+      h1 { font-size: 1.4rem; }
+    }
+  </style>
 </head>
-
 <body>
 
-<h1 class="text-3xl text-center mt-6 font-bold text-emerald-300">
-Países y conversión
-</h1>
+<!-- HEADER -->
+<header>
+  <h1>Países y Conversión</h1>
+  <p class="subtitle">Consulta de mercado Amazon · Moneda · Conversor</p>
+</header>
 
-<div class="max-w-xl mx-auto mt-10 bg-white/10 p-6 rounded-xl backdrop-blur">
+<!-- MAIN -->
+<div class="container">
+  <div class="card">
 
-<label class="block text-sm mb-2">Buscar país o código</label>
+    <label>Nombre del país o código ISO (2 letras)</label>
+    <div class="input-wrapper">
+      <input type="text" id="searchInput"
+        placeholder="Ej: Guatemala o GT"
+        autocomplete="off"
+        oninput="mostrarSugerencias()"
+        onkeydown="manejarTecla(event)" />
+      <div class="suggestions" id="suggestionBox" style="display:none;"></div>
+    </div>
 
-<input id="search"
-class="w-full p-3 rounded text-black"
-placeholder="Ej: Costa Rica o CR">
+    <button class="btn-primary" onclick="buscarPais()">🔍 Buscar</button>
 
-<button onclick="buscar()"
-class="mt-4 w-full bg-emerald-500 p-3 rounded font-bold">
-Buscar
-</button>
+    <div class="error-msg" id="errorMsg">País no encontrado. Intenta con otro nombre o código ISO.</div>
 
-<div id="resultado" class="mt-6 hidden">
+    <!-- RESULT -->
+    <div class="result-box" id="resultBox">
+      <div class="result-grid">
+        <div class="result-item">
+          <label>País</label>
+          <div class="value" id="resPais">—</div>
+        </div>
+        <div class="result-item">
+          <label>Código ISO</label>
+          <div class="value" id="resCodigo">—</div>
+        </div>
+        <div class="result-item">
+          <label>Continente / Región Amazon</label>
+          <div class="value" id="resContinente">—</div>
+        </div>
+        <div class="result-item">
+          <label>Moneda</label>
+          <div class="value" id="resMoneda">—</div>
+        </div>
+        <div class="result-item">
+          <label>Código de Moneda</label>
+          <div class="value" id="resCodMoneda">—</div>
+        </div>
+        <div class="result-item">
+          <label>Mercado Amazon</label>
+          <div class="value" id="resMercado">—</div>
+        </div>
+      </div>
 
-<p><b>País:</b> <span id="pais"></span></p>
-<p><b>Código:</b> <span id="codigo"></span></p>
-<p><b>Moneda:</b> <span id="moneda"></span></p>
+      <hr class="divider" />
 
-<hr class="my-4">
+      <!-- CONVERTER -->
+      <div class="converter-title">💱 Conversor de Moneda</div>
 
-<label class="mt-4 block">Monto en moneda local</label>
-<input id="local" type="number" class="w-full p-2 rounded text-black">
+      <!-- Local → USD -->
+      <div class="converter-row">
+        <div>
+          <label id="labelLocal">Monto en moneda local</label>
+          <input type="number" id="montoLocal" placeholder="Ingresa monto" min="0" />
+        </div>
+        <button class="btn-convert" onclick="convertirADolar()">→ USD</button>
+      </div>
+      <div class="conversion-result" id="resultLocalUSD">
+        <div class="amount-display" id="displayLocalUSD">—</div>
+        <div class="rate-note" id="notaLocalUSD">—</div>
+      </div>
 
-<button onclick="localUSD()" class="mt-3 w-full bg-emerald-600 p-2 rounded">
-Convertir a USD
-</button>
+      <!-- USD → Local -->
+      <div class="converter-row" style="margin-top:14px;">
+        <div>
+          <label>Monto en USD</label>
+          <input type="number" id="montoUSD" placeholder="Ingresa dólares" min="0" />
+        </div>
+        <button class="btn-convert" onclick="convertirALocal()">→ Local</button>
+      </div>
+      <div class="conversion-result" id="resultUSDLocal">
+        <div class="amount-display" id="displayUSDLocal">—</div>
+        <div class="rate-note" id="notaUSDLocal">—</div>
+      </div>
 
-<div id="conversion" class="mt-4 text-lg text-emerald-300"></div>
-<label>Monto en USD</label>
-<input id="usd" type="number" class="w-full p-2 rounded text-black">
+    </div><!-- /result-box -->
 
-<button onclick="usdLocal()" class="mt-3 w-full bg-emerald-600 p-2 rounded">
-Convertir a moneda local
-</button>
+  </div><!-- /card -->
 
-</div>
+  <p class="rates-note">⚠️ Las tasas de cambio son valores de referencia aproximados, no en tiempo real.</p>
 
-</div>
+</div><!-- /container -->
 
-
-<a href="../index.html" class="home-button">
-Volver
-</a>
-
-<div class="code-button">
-<button onclick="window.open('https://www.iban.com/country-codes','_blank')">
-Consulta de códigos país
-</button>
-</div>
-
-<div class="signature">
-Barrantes Book Dragon Club 🐍
-</div>
-
+<!-- FOOTER -->
+<footer>
+  <div class="footer-signature">✨ Creado con magia Slytherin por ECB 🐍</div>
+  <div class="footer-copy">© 2025 Book Dragon Club</div>
+  <div class="nav-buttons">
+    <a href="index.html" class="btn-nav">✨ Volver a la página de inicio</a>
+    <a href="codigos.html" class="btn-nav">🔎 Consulta códigos país</a>
+  </div>
+</footer>
 
 <script>
-
-/* TU LISTA ORIGINAL */
-
-const countries=[
-
-  ["United States","US","amazon.com","NA","US Dollar","USD",1],
-  ["Canada","CA","amazon.ca","NA","Canadian Dollar","CAD",0.74],
-  ["Mexico","MX","amazon.com.mx","NA","Mexican Peso","MXN",0.052],
-  ["Brazil","BR","amazon.com.br","NA","Brazilian Real","BRL",0.20],
-  ["Argentina","AR","amazon.com","NA","Argentine Peso","ARS",0.001],
-  ["Chile","CL","amazon.com","NA","Chilean Peso","CLP",0.0011],
-  ["Colombia","CO","amazon.com","NA","Colombian Peso","COP",0.00025],
-  ["Peru","PE","amazon.com","NA","Peruvian Sol","PEN",0.27],
-  ["Ecuador","EC","amazon.com","NA","US Dollar","USD",1],
-  ["Bolivia","BO","amazon.com","NA","Bolivian Boliviano","BOB",0.145],
-  ["Paraguay","PY","amazon.com","NA","Paraguayan Guarani","PYG",0.000135],
-  ["Uruguay","UY","amazon.com","NA","Uruguayan Peso","UYU",0.025],
-  ["Venezuela","VE","amazon.com","NA","Venezuelan Bolivar","VES",0.028],
-  ["Guyana","GY","amazon.com","NA","Guyanese Dollar","GYD",0.0048],
-  ["Suriname","SR","amazon.com","NA","Surinamese Dollar","SRD",0.028],
-  ["Panama","PA","amazon.com","NA","Panamanian Balboa","PAB",1],
-  ["Costa Rica","CR","amazon.com","NA","Costa Rican Colon","CRC",0.00195],
-  ["Guatemala","GT","amazon.com","NA","Guatemalan Quetzal","GTQ",0.129],
-  ["Honduras","HN","amazon.com","NA","Honduran Lempira","HNL",0.040],
-  ["El Salvador","SV","amazon.com","NA","US Dollar","USD",1],
-  ["Nicaragua","NI","amazon.com","NA","Nicaraguan Cordoba","NIO",0.027],
-  ["Belize","BZ","amazon.com","NA","Belize Dollar","BZD",0.50],
-  ["Cuba","CU","amazon.com","NA","Cuban Peso","CUP",0.042],
-  ["Dominican Republic","DO","amazon.com","NA","Dominican Peso","DOP",0.017],
-  ["Haiti","HT","amazon.com","NA","Haitian Gourde","HTG",0.0075],
-  ["Jamaica","JM","amazon.com","NA","Jamaican Dollar","JMD",0.0065],
-  ["Trinidad and Tobago","TT","amazon.com","NA","Trinidad Dollar","TTD",0.148],
-  ["Barbados","BB","amazon.com","NA","Barbadian Dollar","BBD",0.50],
-  ["Bahamas","BS","amazon.com","NA","Bahamian Dollar","BSD",1],
-  ["Puerto Rico","PR","amazon.com","NA","US Dollar","USD",1],
-  ["Saint Lucia","LC","amazon.com","NA","East Caribbean Dollar","XCD",0.37],
-  ["Saint Vincent and the Grenadines","VC","amazon.com","NA","East Caribbean Dollar","XCD",0.37],
-  ["Grenada","GD","amazon.com","NA","East Caribbean Dollar","XCD",0.37],
-  ["Antigua and Barbuda","AG","amazon.com","NA","East Caribbean Dollar","XCD",0.37],
-  ["Saint Kitts and Nevis","KN","amazon.com","NA","East Caribbean Dollar","XCD",0.37],
-  ["Dominica","DM","amazon.com","NA","East Caribbean Dollar","XCD",0.37],
-  ["United Kingdom","GB","amazon.co.uk","EU","British Pound","GBP",1.27],
-  ["Germany","DE","amazon.de","EU","Euro","EUR",1.09],
-  ["France","FR","amazon.fr","EU","Euro","EUR",1.09],
-  ["Italy","IT","amazon.it","EU","Euro","EUR",1.09],
-  ["Spain","ES","amazon.es","EU","Euro","EUR",1.09],
-  ["Netherlands","NL","amazon.nl","EU","Euro","EUR",1.09],
-  ["Sweden","SE","amazon.se","EU","Swedish Krona","SEK",0.096],
-  ["Poland","PL","amazon.pl","EU","Polish Zloty","PLN",0.25],
-  ["Belgium","BE","amazon.com.be","EU","Euro","EUR",1.09],
-  ["Turkey","TR","amazon.com.tr","EU","Turkish Lira","TRY",0.031],
-  ["Saudi Arabia","SA","amazon.sa","EU","Saudi Riyal","SAR",0.267],
-  ["United Arab Emirates","AE","amazon.ae","EU","UAE Dirham","AED",0.272],
-  ["Egypt","EG","amazon.eg","EU","Egyptian Pound","EGP",0.021],
-  ["India","IN","amazon.in","EU","Indian Rupee","INR",0.012],
-  ["South Africa","ZA","amazon.co.za","EU","South African Rand","ZAR",0.055],
-  ["Portugal","PT","amazon.es","EU","Euro","EUR",1.09],
-  ["Ireland","IE","amazon.co.uk","EU","Euro","EUR",1.09],
-  ["Switzerland","CH","amazon.de","EU","Swiss Franc","CHF",1.13],
-  ["Austria","AT","amazon.de","EU","Euro","EUR",1.09],
-  ["Denmark","DK","amazon.se","EU","Danish Krone","DKK",0.146],
-  ["Norway","NO","amazon.se","EU","Norwegian Krone","NOK",0.094],
-  ["Finland","FI","amazon.se","EU","Euro","EUR",1.09],
-  ["Czech Republic","CZ","amazon.pl","EU","Czech Koruna","CZK",0.044],
-  ["Hungary","HU","amazon.de","EU","Hungarian Forint","HUF",0.0028],
-  ["Romania","RO","amazon.de","EU","Romanian Leu","RON",0.22],
-  ["Bulgaria","BG","amazon.de","EU","Bulgarian Lev","BGN",0.56],
-  ["Greece","GR","amazon.it","EU","Euro","EUR",1.09],
-  ["Croatia","HR","amazon.de","EU","Euro","EUR",1.09],
-  ["Slovakia","SK","amazon.pl","EU","Euro","EUR",1.09],
-  ["Slovenia","SI","amazon.de","EU","Euro","EUR",1.09],
-  ["Serbia","RS","amazon.de","EU","Serbian Dinar","RSD",0.0093],
-  ["Bosnia and Herzegovina","BA","amazon.de","EU","Bosnian Mark","BAM",0.56],
-  ["Albania","AL","amazon.it","EU","Albanian Lek","ALL",0.011],
-  ["North Macedonia","MK","amazon.de","EU","Macedonian Denar","MKD",0.018],
-  ["Montenegro","ME","amazon.de","EU","Euro","EUR",1.09],
-  ["Kosovo","XK","amazon.de","EU","Euro","EUR",1.09],
-  ["Moldova","MD","amazon.de","EU","Moldovan Leu","MDL",0.056],
-  ["Ukraine","UA","amazon.de","EU","Ukrainian Hryvnia","UAH",0.024],
-  ["Belarus","BY","amazon.de","EU","Belarusian Ruble","BYN",0.31],
-  ["Lithuania","LT","amazon.pl","EU","Euro","EUR",1.09],
-  ["Latvia","LV","amazon.pl","EU","Euro","EUR",1.09],
-  ["Estonia","EE","amazon.se","EU","Euro","EUR",1.09],
-  ["Luxembourg","LU","amazon.fr","EU","Euro","EUR",1.09],
-  ["Malta","MT","amazon.it","EU","Euro","EUR",1.09],
-  ["Cyprus","CY","amazon.ae","EU","Euro","EUR",1.09],
-  ["Iceland","IS","amazon.se","EU","Icelandic Krona","ISK",0.0073],
-  ["Liechtenstein","LI","amazon.de","EU","Swiss Franc","CHF",1.13],
-  ["Monaco","MC","amazon.fr","EU","Euro","EUR",1.09],
-  ["Andorra","AD","amazon.es","EU","Euro","EUR",1.09],
-  ["San Marino","SM","amazon.it","EU","Euro","EUR",1.09],
-  ["Vatican City","VA","amazon.it","EU","Euro","EUR",1.09],
-  ["Russia","RU","amazon.de","EU","Russian Ruble","RUB",0.011],
-  ["Kazakhstan","KZ","amazon.ae","EU","Kazakhstani Tenge","KZT",0.0021],
-  ["Uzbekistan","UZ","amazon.ae","EU","Uzbekistani Som","UZS",0.000079],
-  ["Turkmenistan","TM","amazon.ae","EU","Turkmenistani Manat","TMT",0.286],
-  ["Tajikistan","TJ","amazon.ae","EU","Tajikistani Somoni","TJS",0.092],
-  ["Kyrgyzstan","KG","amazon.ae","EU","Kyrgyzstani Som","KGS",0.011],
-  ["Azerbaijan","AZ","amazon.ae","EU","Azerbaijani Manat","AZN",0.588],
-  ["Armenia","AM","amazon.ae","EU","Armenian Dram","AMD",0.0026],
-  ["Georgia","GE","amazon.ae","EU","Georgian Lari","GEL",0.37],
-  ["Israel","IL","amazon.ae","EU","Israeli Shekel","ILS",0.27],
-  ["Jordan","JO","amazon.sa","EU","Jordanian Dinar","JOD",1.41],
-  ["Lebanon","LB","amazon.ae","EU","Lebanese Pound","LBP",0.000011],
-  ["Iraq","IQ","amazon.ae","EU","Iraqi Dinar","IQD",0.00076],
-  ["Iran","IR","amazon.ae","EU","Iranian Rial","IRR",0.000024],
-  ["Kuwait","KW","amazon.sa","EU","Kuwaiti Dinar","KWD",3.25],
-  ["Qatar","QA","amazon.ae","EU","Qatari Riyal","QAR",0.274],
-  ["Bahrain","BH","amazon.sa","EU","Bahraini Dinar","BHD",2.65],
-  ["Oman","OM","amazon.ae","EU","Omani Rial","OMR",2.60],
-  ["Yemen","YE","amazon.sa","EU","Yemeni Rial","YER",0.004],
-  ["Syria","SY","amazon.ae","EU","Syrian Pound","SYP",0.000077],
-  ["Palestine","PS","amazon.ae","EU","Israeli Shekel","ILS",0.27],
-  ["Libya","LY","amazon.eg","EU","Libyan Dinar","LYD",0.21],
-  ["Tunisia","TN","amazon.eg","EU","Tunisian Dinar","TND",0.32],
-  ["Algeria","DZ","amazon.fr","EU","Algerian Dinar","DZD",0.0075],
-  ["Morocco","MA","amazon.fr","EU","Moroccan Dirham","MAD",0.10],
-  ["Sudan","SD","amazon.eg","EU","Sudanese Pound","SDG",0.0017],
-  ["South Sudan","SS","amazon.eg","EU","South Sudanese Pound","SSP",0.00077],
-  ["Ethiopia","ET","amazon.eg","EU","Ethiopian Birr","ETB",0.018],
-  ["Eritrea","ER","amazon.eg","EU","Eritrean Nakfa","ERN",0.067],
-  ["Djibouti","DJ","amazon.eg","EU","Djiboutian Franc","DJF",0.0056],
-  ["Somalia","SO","amazon.eg","EU","Somali Shilling","SOS",0.00175],
-  ["Kenya","KE","amazon.co.za","EU","Kenyan Shilling","KES",0.0077],
-  ["Tanzania","TZ","amazon.co.za","EU","Tanzanian Shilling","TZS",0.00039],
-  ["Uganda","UG","amazon.co.za","EU","Ugandan Shilling","UGX",0.00027],
-  ["Rwanda","RW","amazon.co.za","EU","Rwandan Franc","RWF",0.00072],
-  ["Burundi","BI","amazon.co.za","EU","Burundian Franc","BIF",0.00035],
-  ["Nigeria","NG","amazon.co.za","EU","Nigerian Naira","NGN",0.00065],
-  ["Ghana","GH","amazon.co.za","EU","Ghanaian Cedi","GHS",0.067],
-  ["Senegal","SN","amazon.fr","EU","West African CFA Franc","XOF",0.00166],
-  ["Ivory Coast","CI","amazon.fr","EU","West African CFA Franc","XOF",0.00166],
-  ["Cameroon","CM","amazon.fr","EU","Central African CFA Franc","XAF",0.00166],
-  ["Mali","ML","amazon.fr","EU","West African CFA Franc","XOF",0.00166],
-  ["Burkina Faso","BF","amazon.fr","EU","West African CFA Franc","XOF",0.00166],
-  ["Niger","NE","amazon.fr","EU","West African CFA Franc","XOF",0.00166],
-  ["Chad","TD","amazon.fr","EU","Central African CFA Franc","XAF",0.00166],
-  ["Guinea","GN","amazon.fr","EU","Guinean Franc","GNF",0.000116],
-  ["Guinea-Bissau","GW","amazon.fr","EU","West African CFA Franc","XOF",0.00166],
-  ["Togo","TG","amazon.fr","EU","West African CFA Franc","XOF",0.00166],
-  ["Benin","BJ","amazon.fr","EU","West African CFA Franc","XOF",0.00166],
-  ["Mauritania","MR","amazon.fr","EU","Mauritanian Ouguiya","MRU",0.025],
-  ["Gabon","GA","amazon.fr","EU","Central African CFA Franc","XAF",0.00166],
-  ["Republic of the Congo","CG","amazon.fr","EU","Central African CFA Franc","XAF",0.00166],
-  ["Democratic Republic of the Congo","CD","amazon.fr","EU","Congolese Franc","CDF",0.00036],
-  ["Central African Republic","CF","amazon.fr","EU","Central African CFA Franc","XAF",0.00166],
-  ["Equatorial Guinea","GQ","amazon.es","EU","Central African CFA Franc","XAF",0.00166],
-  ["Sao Tome and Principe","ST","amazon.co.za","EU","Sao Tome Dobra","STN",0.044],
-  ["Cape Verde","CV","amazon.fr","EU","Cape Verdean Escudo","CVE",0.0099],
-  ["Comoros","KM","amazon.co.za","EU","Comorian Franc","KMF",0.0022],
-  ["Angola","AO","amazon.co.za","EU","Angolan Kwanza","AOA",0.0011],
-  ["Mozambique","MZ","amazon.co.za","EU","Mozambican Metical","MZN",0.016],
-  ["Zimbabwe","ZW","amazon.co.za","EU","Zimbabwean Dollar","ZWL",0.0031],
-  ["Zambia","ZM","amazon.co.za","EU","Zambian Kwacha","ZMW",0.038],
-  ["Malawi","MW","amazon.co.za","EU","Malawian Kwacha","MWK",0.00058],
-  ["Botswana","BW","amazon.co.za","EU","Botswana Pula","BWP",0.073],
-  ["Namibia","NA","amazon.co.za","EU","Namibian Dollar","NAD",0.055],
-  ["Lesotho","LS","amazon.co.za","EU","Lesotho Loti","LSL",0.055],
-  ["Eswatini","SZ","amazon.co.za","EU","Swazi Lilangeni","SZL",0.055],
-  ["Madagascar","MG","amazon.co.za","EU","Malagasy Ariary","MGA",0.00022],
-  ["Mauritius","MU","amazon.co.za","EU","Mauritian Rupee","MUR",0.022],
-  ["Seychelles","SC","amazon.co.za","EU","Seychellois Rupee","SCR",0.073],
-  ["Sierra Leone","SL","amazon.co.za","EU","Sierra Leonean Leone","SLE",0.047],
-  ["Liberia","LR","amazon.co.za","EU","Liberian Dollar","LRD",0.0052],
-  ["Gambia","GM","amazon.co.za","EU","Gambian Dalasi","GMD",0.014],
-  ["Pakistan","PK","amazon.in","EU","Pakistani Rupee","PKR",0.0036],
-  ["Bangladesh","BD","amazon.in","EU","Bangladeshi Taka","BDT",0.0091],
-  ["Sri Lanka","LK","amazon.in","EU","Sri Lankan Rupee","LKR",0.0034],
-  ["Nepal","NP","amazon.in","EU","Nepalese Rupee","NPR",0.0075],
-  ["Bhutan","BT","amazon.in","EU","Bhutanese Ngultrum","BTN",0.012],
-  ["Maldives","MV","amazon.in","EU","Maldivian Rufiyaa","MVR",0.065],
-  ["Afghanistan","AF","amazon.in","EU","Afghan Afghani","AFN",0.014],
-  ["French Guiana","GF","amazon.fr","EU","Euro","EUR",1.09],
-  ["Reunion","RE","amazon.fr","EU","Euro","EUR",1.09],
-  ["Mayotte","YT","amazon.fr","EU","Euro","EUR",1.09],
-  ["Japan","JP","amazon.co.jp","FE","Japanese Yen","JPY",0.0067],
-  ["Australia","AU","amazon.com.au","FE","Australian Dollar","AUD",0.64],
-  ["Singapore","SG","amazon.sg","FE","Singapore Dollar","SGD",0.75],
-  ["China","CN","amazon.co.jp","FE","Chinese Yuan","CNY",0.138],
-  ["South Korea","KR","amazon.co.jp","FE","South Korean Won","KRW",0.00073],
-  ["Taiwan","TW","amazon.co.jp","FE","New Taiwan Dollar","TWD",0.031],
-  ["Hong Kong","HK","amazon.co.jp","FE","Hong Kong Dollar","HKD",0.128],
-  ["Thailand","TH","amazon.sg","FE","Thai Baht","THB",0.028],
-  ["Vietnam","VN","amazon.sg","FE","Vietnamese Dong","VND",0.000040],
-  ["Indonesia","ID","amazon.sg","FE","Indonesian Rupiah","IDR",0.000063],
-  ["Malaysia","MY","amazon.sg","FE","Malaysian Ringgit","MYR",0.225],
-  ["Philippines","PH","amazon.sg","FE","Philippine Peso","PHP",0.017],
-  ["Myanmar","MM","amazon.sg","FE","Myanmar Kyat","MMK",0.00048],
-  ["Cambodia","KH","amazon.sg","FE","Cambodian Riel","KHR",0.00025],
-  ["Laos","LA","amazon.sg","FE","Lao Kip","LAK",0.000048],
-  ["Brunei","BN","amazon.sg","FE","Brunei Dollar","BND",0.75],
-  ["Timor-Leste","TL","amazon.com.au","FE","US Dollar","USD",1],
-  ["New Zealand","NZ","amazon.com.au","FE","New Zealand Dollar","NZD",0.60],
-  ["Papua New Guinea","PG","amazon.com.au","FE","Papua New Guinean Kina","PGK",0.27],
-  ["Fiji","FJ","amazon.com.au","FE","Fijian Dollar","FJD",0.44],
-  ["Solomon Islands","SB","amazon.com.au","FE","Solomon Islands Dollar","SBD",0.12],
-  ["Vanuatu","VU","amazon.com.au","FE","Vanuatu Vatu","VUV",0.0084],
-  ["Samoa","WS","amazon.com.au","FE","Samoan Tala","WST",0.37],
-  ["Tonga","TO","amazon.com.au","FE","Tongan Paanga","TOP",0.43],
-  ["Kiribati","KI","amazon.com.au","FE","Australian Dollar","AUD",0.64],
-  ["Micronesia","FM","amazon.com.au","FE","US Dollar","USD",1],
-  ["Marshall Islands","MH","amazon.com.au","FE","US Dollar","USD",1],
-  
-  ["Palau","PW","amazon.com.au","FE","US Dollar","USD",1],
-  ["Nauru","NR","amazon.com.au","FE","Australian Dollar","AUD",0.64],
-  ["Tuvalu","TV","amazon.com.au","FE","Australian Dollar","AUD",0.64],
-  ["Mongolia","MN","amazon.co.jp","FE","Mongolian Tugrik","MNT",0.00029],
-  ["North Korea","KP","amazon.co.jp","FE","North Korean Won","KPW",0.0011]
+// [name, ISO2, marketplace, region, continent_label, currency_name, currency_code, rate_to_usd]
+const paises = [
+  ["United States","US","amazon.com","NA","América del Norte","Dólar Estadounidense","USD",1],
+  ["Canada","CA","amazon.ca","NA","América del Norte","Dólar Canadiense","CAD",0.74],
+  ["Mexico","MX","amazon.com.mx","NA","América del Norte","Peso Mexicano","MXN",0.052],
+  ["Brazil","BR","amazon.com.br","NA","América del Sur","Real Brasileño","BRL",0.20],
+  ["Argentina","AR","amazon.com","NA","América del Sur","Peso Argentino","ARS",0.001],
+  ["Chile","CL","amazon.com","NA","América del Sur","Peso Chileno","CLP",0.0011],
+  ["Colombia","CO","amazon.com","NA","América del Sur","Peso Colombiano","COP",0.00025],
+  ["Peru","PE","amazon.com","NA","América del Sur","Sol Peruano","PEN",0.27],
+  ["Ecuador","EC","amazon.com","NA","América del Sur","Dólar Estadounidense","USD",1],
+  ["Bolivia","BO","amazon.com","NA","América del Sur","Boliviano","BOB",0.145],
+  ["Paraguay","PY","amazon.com","NA","América del Sur","Guaraní Paraguayo","PYG",0.000135],
+  ["Uruguay","UY","amazon.com","NA","América del Sur","Peso Uruguayo","UYU",0.025],
+  ["Venezuela","VE","amazon.com","NA","América del Sur","Bolívar Venezolano","VES",0.028],
+  ["Guyana","GY","amazon.com","NA","América del Sur","Dólar de Guyana","GYD",0.0048],
+  ["Suriname","SR","amazon.com","NA","América del Sur","Dólar de Surinam","SRD",0.028],
+  ["Panama","PA","amazon.com","NA","América Central","Balboa Panameño","PAB",1],
+  ["Costa Rica","CR","amazon.com","NA","América Central","Colón Costarricense","CRC",0.00195],
+  ["Guatemala","GT","amazon.com","NA","América Central","Quetzal Guatemalteco","GTQ",0.129],
+  ["Honduras","HN","amazon.com","NA","América Central","Lempira Hondureño","HNL",0.040],
+  ["El Salvador","SV","amazon.com","NA","América Central","Dólar Estadounidense","USD",1],
+  ["Nicaragua","NI","amazon.com","NA","América Central","Córdoba Nicaragüense","NIO",0.027],
+  ["Belize","BZ","amazon.com","NA","América Central","Dólar de Belice","BZD",0.50],
+  ["Cuba","CU","amazon.com","NA","Caribe","Peso Cubano","CUP",0.042],
+  ["Dominican Republic","DO","amazon.com","NA","Caribe","Peso Dominicano","DOP",0.017],
+  ["Haiti","HT","amazon.com","NA","Caribe","Gourde Haitiano","HTG",0.0075],
+  ["Jamaica","JM","amazon.com","NA","Caribe","Dólar Jamaicano","JMD",0.0065],
+  ["Trinidad and Tobago","TT","amazon.com","NA","Caribe","Dólar de Trinidad","TTD",0.148],
+  ["Barbados","BB","amazon.com","NA","Caribe","Dólar de Barbados","BBD",0.50],
+  ["Bahamas","BS","amazon.com","NA","Caribe","Dólar de Bahamas","BSD",1],
+  ["Puerto Rico","PR","amazon.com","NA","Caribe","Dólar Estadounidense","USD",1],
+  ["Saint Lucia","LC","amazon.com","NA","Caribe","Dólar del Caribe Oriental","XCD",0.37],
+  ["Saint Vincent and the Grenadines","VC","amazon.com","NA","Caribe","Dólar del Caribe Oriental","XCD",0.37],
+  ["Grenada","GD","amazon.com","NA","Caribe","Dólar del Caribe Oriental","XCD",0.37],
+  ["Antigua and Barbuda","AG","amazon.com","NA","Caribe","Dólar del Caribe Oriental","XCD",0.37],
+  ["Saint Kitts and Nevis","KN","amazon.com","NA","Caribe","Dólar del Caribe Oriental","XCD",0.37],
+  ["Dominica","DM","amazon.com","NA","Caribe","Dólar del Caribe Oriental","XCD",0.37],
+  ["United Kingdom","GB","amazon.co.uk","EU","Europa","Libra Esterlina","GBP",1.27],
+  ["Germany","DE","amazon.de","EU","Europa","Euro","EUR",1.09],
+  ["France","FR","amazon.fr","EU","Europa","Euro","EUR",1.09],
+  ["Italy","IT","amazon.it","EU","Europa","Euro","EUR",1.09],
+  ["Spain","ES","amazon.es","EU","Europa","Euro","EUR",1.09],
+  ["Netherlands","NL","amazon.nl","EU","Europa","Euro","EUR",1.09],
+  ["Sweden","SE","amazon.se","EU","Europa","Corona Sueca","SEK",0.096],
+  ["Poland","PL","amazon.pl","EU","Europa","Esloti Polaco","PLN",0.25],
+  ["Belgium","BE","amazon.com.be","EU","Europa","Euro","EUR",1.09],
+  ["Turkey","TR","amazon.com.tr","EU","Europa / Asia","Lira Turca","TRY",0.031],
+  ["Saudi Arabia","SA","amazon.sa","EU","Oriente Medio","Riyal Saudí","SAR",0.267],
+  ["United Arab Emirates","AE","amazon.ae","EU","Oriente Medio","Dírham de EAU","AED",0.272],
+  ["Egypt","EG","amazon.eg","EU","África del Norte","Libra Egipcia","EGP",0.021],
+  ["India","IN","amazon.in","EU","Asia del Sur","Rupia India","INR",0.012],
+  ["South Africa","ZA","amazon.co.za","EU","África","Rand Sudafricano","ZAR",0.055],
+  ["Portugal","PT","amazon.es","EU","Europa","Euro","EUR",1.09],
+  ["Ireland","IE","amazon.co.uk","EU","Europa","Euro","EUR",1.09],
+  ["Switzerland","CH","amazon.de","EU","Europa","Franco Suizo","CHF",1.13],
+  ["Austria","AT","amazon.de","EU","Europa","Euro","EUR",1.09],
+  ["Denmark","DK","amazon.se","EU","Europa","Corona Danesa","DKK",0.146],
+  ["Norway","NO","amazon.se","EU","Europa","Corona Noruega","NOK",0.094],
+  ["Finland","FI","amazon.se","EU","Europa","Euro","EUR",1.09],
+  ["Czech Republic","CZ","amazon.pl","EU","Europa","Corona Checa","CZK",0.044],
+  ["Hungary","HU","amazon.de","EU","Europa","Forinto Húngaro","HUF",0.0028],
+  ["Romania","RO","amazon.de","EU","Europa","Leu Rumano","RON",0.22],
+  ["Bulgaria","BG","amazon.de","EU","Europa","Lev Búlgaro","BGN",0.56],
+  ["Greece","GR","amazon.it","EU","Europa","Euro","EUR",1.09],
+  ["Croatia","HR","amazon.de","EU","Europa","Euro","EUR",1.09],
+  ["Slovakia","SK","amazon.pl","EU","Europa","Euro","EUR",1.09],
+  ["Slovenia","SI","amazon.de","EU","Europa","Euro","EUR",1.09],
+  ["Serbia","RS","amazon.de","EU","Europa","Dinar Serbio","RSD",0.0093],
+  ["Bosnia and Herzegovina","BA","amazon.de","EU","Europa","Marco Bosnio","BAM",0.56],
+  ["Albania","AL","amazon.it","EU","Europa","Lek Albanés","ALL",0.011],
+  ["North Macedonia","MK","amazon.de","EU","Europa","Denar Macedonio","MKD",0.018],
+  ["Montenegro","ME","amazon.de","EU","Europa","Euro","EUR",1.09],
+  ["Kosovo","XK","amazon.de","EU","Europa","Euro","EUR",1.09],
+  ["Moldova","MD","amazon.de","EU","Europa","Leu Moldavo","MDL",0.056],
+  ["Ukraine","UA","amazon.de","EU","Europa","Hryvnia Ucraniana","UAH",0.024],
+  ["Belarus","BY","amazon.de","EU","Europa","Rublo Bielorruso","BYN",0.31],
+  ["Lithuania","LT","amazon.pl","EU","Europa","Euro","EUR",1.09],
+  ["Latvia","LV","amazon.pl","EU","Europa","Euro","EUR",1.09],
+  ["Estonia","EE","amazon.se","EU","Europa","Euro","EUR",1.09],
+  ["Luxembourg","LU","amazon.fr","EU","Europa","Euro","EUR",1.09],
+  ["Malta","MT","amazon.it","EU","Europa","Euro","EUR",1.09],
+  ["Cyprus","CY","amazon.ae","EU","Europa / Asia","Euro","EUR",1.09],
+  ["Iceland","IS","amazon.se","EU","Europa","Corona Islandesa","ISK",0.0073],
+  ["Liechtenstein","LI","amazon.de","EU","Europa","Franco Suizo","CHF",1.13],
+  ["Monaco","MC","amazon.fr","EU","Europa","Euro","EUR",1.09],
+  ["Andorra","AD","amazon.es","EU","Europa","Euro","EUR",1.09],
+  ["San Marino","SM","amazon.it","EU","Europa","Euro","EUR",1.09],
+  ["Vatican City","VA","amazon.it","EU","Europa","Euro","EUR",1.09],
+  ["Russia","RU","amazon.de","EU","Europa / Asia","Rublo Ruso","RUB",0.011],
+  ["Kazakhstan","KZ","amazon.ae","EU","Asia Central","Tenge Kazajo","KZT",0.0021],
+  ["Uzbekistan","UZ","amazon.ae","EU","Asia Central","Som Uzbeko","UZS",0.000079],
+  ["Turkmenistan","TM","amazon.ae","EU","Asia Central","Manat Turcomano","TMT",0.286],
+  ["Tajikistan","TJ","amazon.ae","EU","Asia Central","Somoni Tayiko","TJS",0.092],
+  ["Kyrgyzstan","KG","amazon.ae","EU","Asia Central","Som Kirguís","KGS",0.011],
+  ["Azerbaijan","AZ","amazon.ae","EU","Asia / Europa","Manat Azerbaiyano","AZN",0.588],
+  ["Armenia","AM","amazon.ae","EU","Asia","Dram Armenio","AMD",0.0026],
+  ["Georgia","GE","amazon.ae","EU","Asia / Europa","Lari Georgiano","GEL",0.37],
+  ["Israel","IL","amazon.ae","EU","Oriente Medio","Séquel Israelí","ILS",0.27],
+  ["Jordan","JO","amazon.sa","EU","Oriente Medio","Dinar Jordano","JOD",1.41],
+  ["Lebanon","LB","amazon.ae","EU","Oriente Medio","Libra Libanesa","LBP",0.000011],
+  ["Iraq","IQ","amazon.ae","EU","Oriente Medio","Dinar Iraquí","IQD",0.00076],
+  ["Iran","IR","amazon.ae","EU","Oriente Medio","Rial Iraní","IRR",0.000024],
+  ["Kuwait","KW","amazon.sa","EU","Oriente Medio","Dinar Kuwaití","KWD",3.25],
+  ["Qatar","QA","amazon.ae","EU","Oriente Medio","Riyal Catarí","QAR",0.274],
+  ["Bahrain","BH","amazon.sa","EU","Oriente Medio","Dinar Bareiní","BHD",2.65],
+  ["Oman","OM","amazon.ae","EU","Oriente Medio","Rial Omaní","OMR",2.60],
+  ["Yemen","YE","amazon.sa","EU","Oriente Medio","Rial Yemení","YER",0.004],
+  ["Syria","SY","amazon.ae","EU","Oriente Medio","Libra Siria","SYP",0.000077],
+  ["Palestine","PS","amazon.ae","EU","Oriente Medio","Séquel Israelí","ILS",0.27],
+  ["Libya","LY","amazon.eg","EU","África del Norte","Dinar Libio","LYD",0.21],
+  ["Tunisia","TN","amazon.eg","EU","África del Norte","Dinar Tunecino","TND",0.32],
+  ["Algeria","DZ","amazon.fr","EU","África del Norte","Dinar Argelino","DZD",0.0075],
+  ["Morocco","MA","amazon.fr","EU","África del Norte","Dírham Marroquí","MAD",0.10],
+  ["Sudan","SD","amazon.eg","EU","África","Libra Sudanesa","SDG",0.0017],
+  ["South Sudan","SS","amazon.eg","EU","África","Libra Sursudanesa","SSP",0.00077],
+  ["Ethiopia","ET","amazon.eg","EU","África","Birr Etíope","ETB",0.018],
+  ["Eritrea","ER","amazon.eg","EU","África","Nakfa Eritreo","ERN",0.067],
+  ["Djibouti","DJ","amazon.eg","EU","África","Franco Yibutiano","DJF",0.0056],
+  ["Somalia","SO","amazon.eg","EU","África","Chelín Somalí","SOS",0.00175],
+  ["Kenya","KE","amazon.co.za","EU","África","Chelín Keniano","KES",0.0077],
+  ["Tanzania","TZ","amazon.co.za","EU","África","Chelín Tanzano","TZS",0.00039],
+  ["Uganda","UG","amazon.co.za","EU","África","Chelín Ugandés","UGX",0.00027],
+  ["Rwanda","RW","amazon.co.za","EU","África","Franco Ruandés","RWF",0.00072],
+  ["Burundi","BI","amazon.co.za","EU","África","Franco Burundés","BIF",0.00035],
+  ["Nigeria","NG","amazon.co.za","EU","África","Naira Nigeriana","NGN",0.00065],
+  ["Ghana","GH","amazon.co.za","EU","África","Cedi Ghanés","GHS",0.067],
+  ["Senegal","SN","amazon.fr","EU","África","Franco CFA Oeste Africano","XOF",0.00166],
+  ["Ivory Coast","CI","amazon.fr","EU","África","Franco CFA Oeste Africano","XOF",0.00166],
+  ["Cameroon","CM","amazon.fr","EU","África","Franco CFA África Central","XAF",0.00166],
+  ["Mali","ML","amazon.fr","EU","África","Franco CFA Oeste Africano","XOF",0.00166],
+  ["Burkina Faso","BF","amazon.fr","EU","África","Franco CFA Oeste Africano","XOF",0.00166],
+  ["Niger","NE","amazon.fr","EU","África","Franco CFA Oeste Africano","XOF",0.00166],
+  ["Chad","TD","amazon.fr","EU","África","Franco CFA África Central","XAF",0.00166],
+  ["Guinea","GN","amazon.fr","EU","África","Franco Guineano","GNF",0.000116],
+  ["Guinea-Bissau","GW","amazon.fr","EU","África","Franco CFA Oeste Africano","XOF",0.00166],
+  ["Togo","TG","amazon.fr","EU","África","Franco CFA Oeste Africano","XOF",0.00166],
+  ["Benin","BJ","amazon.fr","EU","África","Franco CFA Oeste Africano","XOF",0.00166],
+  ["Mauritania","MR","amazon.fr","EU","África","Uguiya Mauritana","MRU",0.025],
+  ["Gabon","GA","amazon.fr","EU","África","Franco CFA África Central","XAF",0.00166],
+  ["Republic of the Congo","CG","amazon.fr","EU","África","Franco CFA África Central","XAF",0.00166],
+  ["Democratic Republic of the Congo","CD","amazon.fr","EU","África","Franco Congoleño","CDF",0.00036],
+  ["Central African Republic","CF","amazon.fr","EU","África","Franco CFA África Central","XAF",0.00166],
+  ["Equatorial Guinea","GQ","amazon.es","EU","África","Franco CFA África Central","XAF",0.00166],
+  ["Sao Tome and Principe","ST","amazon.co.za","EU","África","Dobra de Santo Tomé","STN",0.044],
+  ["Cape Verde","CV","amazon.fr","EU","África","Escudo Caboverdiano","CVE",0.0099],
+  ["Comoros","KM","amazon.co.za","EU","África","Franco Comorense","KMF",0.0022],
+  ["Angola","AO","amazon.co.za","EU","África","Kwanza Angoleño","AOA",0.0011],
+  ["Mozambique","MZ","amazon.co.za","EU","África","Metical Mozambiqueño","MZN",0.016],
+  ["Zimbabwe","ZW","amazon.co.za","EU","África","Dólar Zimbabuense","ZWL",0.0031],
+  ["Zambia","ZM","amazon.co.za","EU","África","Kwacha Zambiano","ZMW",0.038],
+  ["Malawi","MW","amazon.co.za","EU","África","Kwacha Malauí","MWK",0.00058],
+  ["Botswana","BW","amazon.co.za","EU","África","Pula Botsuanesa","BWP",0.073],
+  ["Namibia","NA","amazon.co.za","EU","África","Dólar Namibio","NAD",0.055],
+  ["Lesotho","LS","amazon.co.za","EU","África","Loti Lesotense","LSL",0.055],
+  ["Eswatini","SZ","amazon.co.za","EU","África","Lilangeni Suazi","SZL",0.055],
+  ["Madagascar","MG","amazon.co.za","EU","África","Ariary Malgache","MGA",0.00022],
+  ["Mauritius","MU","amazon.co.za","EU","África","Rupia Mauriciana","MUR",0.022],
+  ["Seychelles","SC","amazon.co.za","EU","África","Rupia de Seychelles","SCR",0.073],
+  ["Sierra Leone","SL","amazon.co.za","EU","África","Leone de Sierra Leona","SLE",0.047],
+  ["Liberia","LR","amazon.co.za","EU","África","Dólar Liberiano","LRD",0.0052],
+  ["Gambia","GM","amazon.co.za","EU","África","Dalasi Gambiano","GMD",0.014],
+  ["Pakistan","PK","amazon.in","EU","Asia del Sur","Rupia Pakistaní","PKR",0.0036],
+  ["Bangladesh","BD","amazon.in","EU","Asia del Sur","Taka Bangladesí","BDT",0.0091],
+  ["Sri Lanka","LK","amazon.in","EU","Asia del Sur","Rupia de Sri Lanka","LKR",0.0034],
+  ["Nepal","NP","amazon.in","EU","Asia del Sur","Rupia Nepalesa","NPR",0.0075],
+  ["Bhutan","BT","amazon.in","EU","Asia del Sur","Ngultrum Butanés","BTN",0.012],
+  ["Maldives","MV","amazon.in","EU","Asia del Sur","Rufiyaa Maldiva","MVR",0.065],
+  ["Afghanistan","AF","amazon.in","EU","Asia del Sur","Afgani Afgano","AFN",0.014],
+  ["French Guiana","GF","amazon.fr","EU","América del Sur","Euro","EUR",1.09],
+  ["Reunion","RE","amazon.fr","EU","África","Euro","EUR",1.09],
+  ["Mayotte","YT","amazon.fr","EU","África","Euro","EUR",1.09],
+  ["Japan","JP","amazon.co.jp","FE","Asia Oriental","Yen Japonés","JPY",0.0067],
+  ["Australia","AU","amazon.com.au","FE","Oceanía","Dólar Australiano","AUD",0.64],
+  ["Singapore","SG","amazon.sg","FE","Asia del Sudeste","Dólar de Singapur","SGD",0.75],
+  ["China","CN","amazon.co.jp","FE","Asia Oriental","Yuan Chino","CNY",0.138],
+  ["South Korea","KR","amazon.co.jp","FE","Asia Oriental","Won Surcoreano","KRW",0.00073],
+  ["Taiwan","TW","amazon.co.jp","FE","Asia Oriental","Nuevo Dólar Taiwanés","TWD",0.031],
+  ["Hong Kong","HK","amazon.co.jp","FE","Asia Oriental","Dólar de Hong Kong","HKD",0.128],
+  ["Thailand","TH","amazon.sg","FE","Asia del Sudeste","Baht Tailandés","THB",0.028],
+  ["Vietnam","VN","amazon.sg","FE","Asia del Sudeste","Dong Vietnamita","VND",0.000040],
+  ["Indonesia","ID","amazon.sg","FE","Asia del Sudeste","Rupia Indonesia","IDR",0.000063],
+  ["Malaysia","MY","amazon.sg","FE","Asia del Sudeste","Ringgit Malayo","MYR",0.225],
+  ["Philippines","PH","amazon.sg","FE","Asia del Sudeste","Peso Filipino","PHP",0.017],
+  ["Myanmar","MM","amazon.sg","FE","Asia del Sudeste","Kyat Birmano","MMK",0.00048],
+  ["Cambodia","KH","amazon.sg","FE","Asia del Sudeste","Riel Camboyano","KHR",0.00025],
+  ["Laos","LA","amazon.sg","FE","Asia del Sudeste","Kip Laosiano","LAK",0.000048],
+  ["Brunei","BN","amazon.sg","FE","Asia del Sudeste","Dólar de Brunéi","BND",0.75],
+  ["Timor-Leste","TL","amazon.com.au","FE","Asia del Sudeste","Dólar Estadounidense","USD",1],
+  ["New Zealand","NZ","amazon.com.au","FE","Oceanía","Dólar Neozelandés","NZD",0.60],
+  ["Papua New Guinea","PG","amazon.com.au","FE","Oceanía","Kina de Papúa","PGK",0.27],
+  ["Fiji","FJ","amazon.com.au","FE","Oceanía","Dólar Fiyiano","FJD",0.44],
+  ["Solomon Islands","SB","amazon.com.au","FE","Oceanía","Dólar de Salomón","SBD",0.12],
+  ["Vanuatu","VU","amazon.com.au","FE","Oceanía","Vatu de Vanuatu","VUV",0.0084],
+  ["Samoa","WS","amazon.com.au","FE","Oceanía","Tala Samoano","WST",0.37],
+  ["Tonga","TO","amazon.com.au","FE","Oceanía","Paanga Tongano","TOP",0.43],
+  ["Kiribati","KI","amazon.com.au","FE","Oceanía","Dólar Australiano","AUD",0.64],
+  ["Micronesia","FM","amazon.com.au","FE","Oceanía","Dólar Estadounidense","USD",1],
+  ["Marshall Islands","MH","amazon.com.au","FE","Oceanía","Dólar Estadounidense","USD",1],
+  ["Palau","PW","amazon.com.au","FE","Oceanía","Dólar Estadounidense","USD",1],
+  ["Nauru","NR","amazon.com.au","FE","Oceanía","Dólar Australiano","AUD",0.64],
+  ["Tuvalu","TV","amazon.com.au","FE","Oceanía","Dólar Australiano","AUD",0.64],
+  ["Mongolia","MN","amazon.co.jp","FE","Asia Oriental","Tugrik Mongol","MNT",0.00029],
+  ["North Korea","KP","amazon.co.jp","FE","Asia Oriental","Won Norcoreano","KPW",0.0011]
 ];
 
-/* VARIABLES */
+// Build lookup maps
+const porCodigo = {};
+const porNombre = {};
+paises.forEach(function(c) {
+  porCodigo[c[1].toUpperCase()] = c;
+  porNombre[c[0].toLowerCase()] = c;
+});
 
-let actual=null;
+let paisActual = null;
 
+function buscarPais() {
+  const query = document.getElementById("searchInput").value;
+  const errorMsg = document.getElementById("errorMsg");
+  const resultBox = document.getElementById("resultBox");
 
-/* BUSCAR */
+  document.getElementById("suggestionBox").style.display = "none";
 
-function buscar(){
+  const c = encontrarPais(query);
+  if (!c) {
+    errorMsg.classList.add("visible");
+    resultBox.classList.remove("visible");
+    return;
+  }
 
-let texto=document.getElementById("search").value.toUpperCase();
+  errorMsg.classList.remove("visible");
+  paisActual = c;
 
-let pais=countries.find(p=>
-p[0].toUpperCase()==texto || p[1]==texto
-);
+  document.getElementById("resPais").textContent = c[0];
+  document.getElementById("resCodigo").textContent = c[1];
+  document.getElementById("resContinente").innerHTML = "<span class=\"badge badge-" + c[3] + "\">" + c[4] + " (" + c[3] + ")</span>";
+  document.getElementById("resMoneda").textContent = c[5];
+  document.getElementById("resCodMoneda").textContent = c[6];
+  document.getElementById("resMercado").innerHTML = "<a href=\"https://" + c[2] + "\" target=\"_blank\" style=\"color:#2ecc71;\">" + c[2] + "</a>";
+  document.getElementById("labelLocal").textContent = "Monto en " + c[6];
+  document.getElementById("montoLocal").placeholder = "Ingresa monto en " + c[6];
 
-if(!pais){
-
-alert("País no encontrado");
-return;
-
+  document.getElementById("resultLocalUSD").classList.remove("visible");
+  document.getElementById("resultUSDLocal").classList.remove("visible");
+  document.getElementById("montoLocal").value = "";
+  document.getElementById("montoUSD").value = "";
+  resultBox.classList.add("visible");
 }
 
-actual=pais;
-
-document.getElementById("pais").innerText=pais[0];
-document.getElementById("codigo").innerText=pais[1];
-document.getElementById("moneda").innerText=pais[4]+" ("+pais[5]+")";
-
-document.getElementById("resultado").classList.remove("hidden");
-
+function encontrarPais(query) {
+  const q = query.trim();
+  if (!q) return null;
+  const upper = q.toUpperCase();
+  if (porCodigo[upper]) return porCodigo[upper];
+  const lower = q.toLowerCase();
+  if (porNombre[lower]) return porNombre[lower];
+  const match = paises.find(function(c) {
+    return c[0].toLowerCase().startsWith(lower) || c[1].toLowerCase() === lower;
+  });
+  return match || null;
 }
 
-
-/* USD → LOCAL */
-
-function usdLocal(){
-
-let usd=document.getElementById("usd").value;
-
-let rate=actual[6];
-
-let local=usd/rate;
-
-document.getElementById("conversion").innerText=
-usd+" USD = "+local.toFixed(2)+" "+actual[5];
-
+function convertirADolar() {
+  if (!paisActual) return;
+  const monto = parseFloat(document.getElementById("montoLocal").value);
+  if (isNaN(monto) || monto < 0) return;
+  const tasa = paisActual[7];
+  const usd = (monto * tasa).toFixed(4);
+  const cod = paisActual[6];
+  document.getElementById("displayLocalUSD").textContent =
+    monto.toLocaleString("es") + " " + cod + " = $" + parseFloat(usd).toLocaleString("en-US", {minimumFractionDigits: 2, maximumFractionDigits: 4}) + " USD";
+  document.getElementById("notaLocalUSD").textContent =
+    "Tasa de referencia: 1 " + cod + " ≈ " + tasa + " USD (no es tiempo real)";
+  document.getElementById("resultLocalUSD").classList.add("visible");
 }
 
-
-/* LOCAL → USD */
-
-function localUSD(){
-
-let local=document.getElementById("local").value;
-
-let rate=actual[6];
-
-let usd=local*rate;
-
-document.getElementById("conversion").innerText=
-local+" "+actual[5]+" = "+usd.toFixed(2)+" USD";
-
+function convertirALocal() {
+  if (!paisActual) return;
+  const usd = parseFloat(document.getElementById("montoUSD").value);
+  if (isNaN(usd) || usd < 0) return;
+  const tasa = paisActual[7];
+  const local = (usd / tasa).toFixed(2);
+  const cod = paisActual[6];
+  document.getElementById("displayUSDLocal").textContent =
+    "$" + usd.toLocaleString("en-US", {minimumFractionDigits: 2}) + " USD = " + parseFloat(local).toLocaleString("es") + " " + cod;
+  document.getElementById("notaUSDLocal").textContent =
+    "Tasa de referencia: 1 USD ≈ " + (1 / tasa).toFixed(4) + " " + cod + " (no es tiempo real)";
+  document.getElementById("resultUSDLocal").classList.add("visible");
 }
 
+function mostrarSugerencias() {
+  const query = document.getElementById("searchInput").value.toLowerCase().trim();
+  const box = document.getElementById("suggestionBox");
+  if (!query) { box.style.display = "none"; return; }
+  const matches = paises.filter(function(c) {
+    return c[0].toLowerCase().startsWith(query) || c[1].toLowerCase().startsWith(query);
+  }).slice(0, 8);
+  if (matches.length === 0) { box.style.display = "none"; return; }
+  box.innerHTML = matches.map(function(c) {
+    return "<div class=\"suggestion-item\" onclick=\"seleccionarSugerencia('" + c[1] + "')\">" + c[0] + " (" + c[1] + ")</div>";
+  }).join("");
+  box.style.display = "block";
+}
+
+function seleccionarSugerencia(codigo) {
+  document.getElementById("searchInput").value = codigo;
+  document.getElementById("suggestionBox").style.display = "none";
+  buscarPais();
+}
+
+function manejarTecla(e) {
+  if (e.key === "Enter") buscarPais();
+}
+
+document.addEventListener("click", function(e) {
+  if (!e.target.closest(".input-wrapper")) {
+    document.getElementById("suggestionBox").style.display = "none";
+  }
+});
 </script>
-  <!-- Firma mágica -->
-  <div class="signature">
-    <div class="main">
-      ✨ Creado con magia Slytherin por ECB 🐍
-      ✨ Creado con magia por ECB 🐍
-      <div class="sparkle" style="top:-10px; left:-20px;"></div>
-      <div class="sparkle silver" style="top:-5px; right:-15px;"></div>
-      <div class="sparkle" style="bottom:-10px; left:0;"></div>
-      <div class="sparkle silver" style="bottom:-10px; right:10px;"></div>
-    </div>
-    <div class="sub">© 2025 Book Dragon Club</div>
-  </div>
 </body>
 </html>
-
-
