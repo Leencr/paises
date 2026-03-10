@@ -2,83 +2,220 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Países y conversión</title>
 
 <style>
 
+*{box-sizing:border-box;margin:0;padding:0;}
+
 body{
-font-family: 'Segoe UI', sans-serif;
-margin:0;
-padding:0;
-background: linear-gradient(135deg,#0f3d2e,#021b14);
-color:white;
-text-align:center;
+font-family:'Segoe UI',sans-serif;
+background:linear-gradient(to bottom right,#052e16,#064e3b);
+color:#e0f7ef;
+min-height:100vh;
+padding:30px 20px;
+overflow:hidden;
 }
 
-/* contenedor */
+/* estrellas */
 
-.container{
-background:white;
-color:#1b3b2f;
-width:90%;
-max-width:700px;
-margin:60px auto;
-padding:30px;
-border-radius:15px;
-box-shadow:0 0 20px rgba(0,0,0,0.5);
+.star{
+position:absolute;
+width:4px;
+height:4px;
+border-radius:50%;
+background:radial-gradient(circle,#10b981,transparent);
+animation:twinkle 3s infinite alternate;
+opacity:0.8;
 }
 
-/* titulo */
+.star.silver{
+background:radial-gradient(circle,#d1d5db,transparent);
+}
+
+@keyframes twinkle{
+from{transform:scale(1);opacity:.7;}
+to{transform:scale(1.5);opacity:1;}
+}
+
+/* título */
 
 h1{
-color:#0f5132;
-margin-bottom:5px;
+text-align:center;
+font-size:1.8rem;
+margin-bottom:6px;
+background:linear-gradient(90deg,#34d399,#d1d5db);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
 }
 
-/* inputs */
-
-input{
-padding:10px;
-width:80%;
-margin:10px 0;
-border-radius:6px;
-border:1px solid #ccc;
-font-size:16px;
+.subtitle{
+text-align:center;
+color:#a7f3d0;
+font-size:.9rem;
+margin-bottom:28px;
 }
 
-/* botones */
+/* card (igual que marketplaces) */
+
+.card{
+background:rgba(255,255,255,.05);
+border:1px solid rgba(52,211,153,.3);
+border-radius:16px;
+padding:24px;
+max-width:700px;
+margin:0 auto 24px auto;
+backdrop-filter:blur(10px);
+}
+
+label{
+display:block;
+font-size:.85rem;
+color:#34d399;
+margin-bottom:6px;
+font-weight:600;
+}
+
+input,select{
+width:100%;
+padding:12px 16px;
+border-radius:10px;
+border:1px solid rgba(52,211,153,.3);
+background:rgba(0,0,0,.3);
+color:#e0f7ef;
+font-size:1rem;
+}
+
+.search-row{
+display:flex;
+gap:12px;
+margin-bottom:16px;
+}
+
+.search-row>div{flex:1;}
 
 button{
-background:silver;
+width:100%;
+padding:13px;
+border-radius:10px;
 border:none;
-padding:10px 18px;
-margin:5px;
-border-radius:8px;
-font-weight:bold;
+background:linear-gradient(90deg,#065f46,#34d399);
+color:white;
+font-size:1rem;
+font-weight:700;
 cursor:pointer;
-transition:0.3s;
 }
 
 button:hover{
-background:#0f5132;
-color:white;
+opacity:.9;
 }
 
-/* resultados */
-
-.result{
+.result-box{
+display:none;
 margin-top:20px;
-font-size:18px;
+background:rgba(52,211,153,.08);
+border:1px solid rgba(52,211,153,.25);
+border-radius:12px;
+padding:20px;
+}
+
+.result-box.visible{display:block;}
+
+.result-grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:14px;
+margin-bottom:16px;
+}
+
+.result-item label{
+font-size:.75rem;
+color:#d1d5db;
+}
+
+.result-item .value{
+font-size:1.05rem;
+font-weight:600;
+}
+
+.divider{
+border:none;
+border-top:1px solid rgba(52,211,153,.2);
+margin:16px 0;
+}
+
+.converter-row{
+display:flex;
+gap:12px;
+align-items:flex-end;
+}
+
+.converter-row>div{flex:1;}
+
+.convert-btn{
+flex:0 0 auto;
+width:auto;
+padding:12px 20px;
+font-size:.9rem;
+}
+
+.conversion-result{
+margin-top:14px;
+padding:14px;
+background:rgba(16,185,129,.15);
+border-radius:10px;
+border:1px solid rgba(16,185,129,.4);
+display:none;
+}
+
+.conversion-result.visible{
+display:block;
+}
+
+.amount-display{
+font-size:1.4rem;
+font-weight:700;
+color:#34d399;
+}
+
+/* botones flotantes */
+
+.code-button{
+position:fixed;
+bottom:20px;
+right:20px;
+}
+
+.code-button button{
+background:linear-gradient(45deg,#065f46,#34d399);
+padding:10px 20px;
+border-radius:8px;
+box-shadow:0 0 10px rgba(16,185,129,.7);
+}
+
+.home-button{
+position:fixed;
+bottom:20px;
+left:20px;
+background:linear-gradient(45deg,#065f46,#34d399);
+padding:10px 20px;
+border-radius:8px;
+text-decoration:none;
+color:white;
+font-weight:bold;
+box-shadow:0 0 10px rgba(16,185,129,.7);
 }
 
 /* firma */
 
-.firma{
-margin-top:40px;
-font-size:18px;
-font-weight:bold;
-color:silver;
-text-shadow:0 0 8px #7fff9a;
+.footer{
+position:fixed;
+bottom:70px;
+width:100%;
+text-align:center;
+color:#a7f3d0;
+font-size:14px;
 }
 
 </style>
@@ -86,110 +223,160 @@ text-shadow:0 0 8px #7fff9a;
 
 <body>
 
-<div class="container">
-
 <h1>Países y conversión</h1>
-<p>Buscar por país o código ISO</p>
+<div class="subtitle">Buscar por país o código ISO</div>
 
-<input id="busqueda" placeholder="Ej: Costa Rica o CR">
+<div class="card">
 
-<br>
+<div class="search-row">
+<div>
+<label>País o código</label>
+<input id="searchInput" placeholder="Ej: Costa Rica o CR">
+</div>
+</div>
 
 <button onclick="buscar()">Buscar</button>
 
-<div class="result" id="resultado"></div>
+<div class="result-box" id="resultBox">
 
-<hr>
+<div class="result-grid">
 
-<h3>Conversión de moneda</h3>
+<div class="result-item">
+<label>País</label>
+<div class="value" id="pais"></div>
+</div>
 
-<input id="montoLocal" placeholder="Monto moneda local">
+<div class="result-item">
+<label>Código</label>
+<div class="value" id="codigo"></div>
+</div>
 
-<button onclick="convertirUSD()">Moneda → USD</button>
+<div class="result-item">
+<label>Continente</label>
+<div class="value" id="continente"></div>
+</div>
 
-<br>
+<div class="result-item">
+<label>Moneda</label>
+<div class="value" id="moneda"></div>
+</div>
 
-<input id="montoUSD" placeholder="Monto en USD">
+</div>
 
-<button onclick="convertirLocal()">USD → Moneda</button>
+<hr class="divider">
 
-<div class="result" id="conversion"></div>
+<div class="converter-row">
 
-<br><br>
+<div>
+<label>Monto moneda local</label>
+<input id="localAmount">
+</div>
 
-<button onclick="window.history.back()">Volver</button>
+<button class="convert-btn" onclick="localUSD()">Local → USD</button>
 
+</div>
+
+<div class="converter-row" style="margin-top:10px">
+
+<div>
+<label>Monto USD</label>
+<input id="usdAmount">
+</div>
+
+<button class="convert-btn" onclick="usdLocal()">USD → Local</button>
+
+</div>
+
+<div class="conversion-result" id="conversion"></div>
+
+</div>
+
+</div>
+
+<a class="home-button" href="index.html">Volver</a>
+
+<div class="code-button">
 <button onclick="window.open('https://www.iban.com/country-codes')">
 Consulta códigos país
 </button>
+</div>
 
-<div class="firma">✨ ECB ✨</div>
-
+<div class="footer">
+✨ Creado con magia por ECB  
+<br>
+© 2025 Book Dragon Club
 </div>
 
 <script>
 
+/* estrellas */
+
+for(let i=0;i<40;i++){
+let star=document.createElement("div");
+star.className="star"+(Math.random()>0.5?" silver":"");
+star.style.left=Math.random()*100+"%";
+star.style.top=Math.random()*100+"%";
+document.body.appendChild(star);
+}
+
+/* datos */
+
 const paises={
-CR:{pais:"Costa Rica",continente:"América",moneda:"Colón",codigo:"CRC",rate:540},
-MX:{pais:"México",continente:"América",moneda:"Peso mexicano",codigo:"MXN",rate:17},
-BR:{pais:"Brasil",continente:"América",moneda:"Real",codigo:"BRL",rate:5},
-AR:{pais:"Argentina",continente:"América",moneda:"Peso argentino",codigo:"ARS",rate:900},
-ES:{pais:"España",continente:"Europa",moneda:"Euro",codigo:"EUR",rate:0.92},
-US:{pais:"Estados Unidos",continente:"América",moneda:"Dólar",codigo:"USD",rate:1}
+CR:{pais:"Costa Rica",continente:"América",moneda:"Colón",rate:540},
+MX:{pais:"México",continente:"América",moneda:"Peso Mexicano",rate:17},
+ES:{pais:"España",continente:"Europa",moneda:"Euro",rate:0.92},
+BR:{pais:"Brasil",continente:"América",moneda:"Real",rate:5}
 };
 
-let paisActual=null;
+let actual=null;
 
 function buscar(){
 
-let valor=document.getElementById("busqueda").value.toUpperCase();
+let val=document.getElementById("searchInput").value.toUpperCase();
 
-for(let code in paises){
+for(let c in paises){
 
-if(code===valor || paises[code].pais.toUpperCase()===valor){
+if(c===val||paises[c].pais.toUpperCase()===val){
 
-paisActual=paises[code];
+actual=paises[c];
 
-document.getElementById("resultado").innerHTML=
+document.getElementById("pais").innerText=actual.pais;
+document.getElementById("codigo").innerText=c;
+document.getElementById("continente").innerText=actual.continente;
+document.getElementById("moneda").innerText=actual.moneda;
 
-"<b>País:</b> "+paisActual.pais+"<br>"+
-"<b>Código:</b> "+code+"<br>"+
-"<b>Continente:</b> "+paisActual.continente+"<br>"+
-"<b>Moneda:</b> "+paisActual.moneda+" ("+paisActual.codigo+")";
+document.getElementById("resultBox").classList.add("visible");
 
-return;
-
+}
 }
 
 }
 
-document.getElementById("resultado").innerHTML="País no encontrado";
+function localUSD(){
+
+let m=document.getElementById("localAmount").value;
+let usd=m/actual.rate;
+
+mostrar(m+" "+actual.moneda+" = "+usd.toFixed(2)+" USD");
 
 }
 
-function convertirUSD(){
+function usdLocal(){
 
-if(!paisActual){alert("Busca un país primero");return;}
+let m=document.getElementById("usdAmount").value;
+let local=m*actual.rate;
 
-let monto=document.getElementById("montoLocal").value;
-
-let usd=monto/paisActual.rate;
-
-document.getElementById("conversion").innerHTML=
-monto+" "+paisActual.codigo+" = "+usd.toFixed(2)+" USD";
+mostrar(m+" USD = "+local.toFixed(2)+" "+actual.moneda);
 
 }
 
-function convertirLocal(){
+function mostrar(txt){
 
-if(!paisActual){alert("Busca un país primero");return;}
+let c=document.getElementById("conversion");
 
-let monto=document.getElementById("montoUSD").value;
+c.innerHTML="<div class='amount-display'>"+txt+"</div>";
 
-let local=monto*paisActual.rate;
-
-document.getElementById("conversion").innerHTML=
-monto+" USD = "+local.toFixed(2)+" "+paisActual.codigo;
+c.classList.add("visible");
 
 }
 
