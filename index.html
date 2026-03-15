@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -743,7 +742,7 @@ function convertirADolar() {
   const usd = (monto * tasa).toFixed(4);
   const cod = paisActual[6];
   document.getElementById("displayLocalUSD").textContent =
-    monto.toLocaleString("es") + " " + cod + " = $" + parseFloat(usd).toLocaleString("en-US", {minimumFractionDigits: 2, maximumFractionDigits: 4}) + " USD";
+    monto.toLocaleString("en-US") + " " + cod + " = $" + parseFloat(usd).toLocaleString("en-US", {minimumFractionDigits: 2, maximumFractionDigits: 4}) + " USD";
   document.getElementById("notaLocalUSD").textContent =
     "Tasa de referencia: 1 " + cod + " ≈ " + tasa + " USD (no es tiempo real)";
   document.getElementById("resultLocalUSD").classList.add("visible");
@@ -757,7 +756,7 @@ function convertirALocal() {
   const local = (usd / tasa).toFixed(2);
   const cod = paisActual[6];
   document.getElementById("displayUSDLocal").textContent =
-    "$" + usd.toLocaleString("en-US", {minimumFractionDigits: 2}) + " USD = " + parseFloat(local).toLocaleString("es") + " " + cod;
+    "$" + usd.toLocaleString("en-US", {minimumFractionDigits: 2}) + " USD = " + parseFloat(local).toLocaleString("en-US") + " " + cod;
   document.getElementById("notaUSDLocal").textContent =
     "Tasa de referencia: 1 USD ≈ " + (1 / tasa).toFixed(4) + " " + cod + " (no es tiempo real)";
   document.getElementById("resultUSDLocal").classList.add("visible");
