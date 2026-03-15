@@ -738,9 +738,9 @@ function convertirADolar() {
   if (!paisActual) return;
   const monto = parseFloat(document.getElementById("montoLocal").value);
   if (isNaN(monto) || monto < 0) return;
-  const tasa = paisActual;
+  const tasa = paisActual[7];
   const usd = (monto * tasa).toFixed(2);
-  const cod = paisActual;
+  const cod = paisActual[6];
   document.getElementById("displayLocalUSD").textContent =
     monto.toLocaleString("en-US", {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " " + cod + " = $" + parseFloat(usd).toLocaleString("en-US", {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " USD";
   document.getElementById("notaLocalUSD").textContent =
@@ -752,9 +752,9 @@ function convertirALocal() {
   if (!paisActual) return;
   const usd = parseFloat(document.getElementById("montoUSD").value);
   if (isNaN(usd) || usd < 0) return;
-  const tasa = paisActual;
+  const tasa = paisActual[7];
   const local = (usd / tasa).toFixed(2);
-  const cod = paisActual;
+  const cod = paisActual[6];
   document.getElementById("displayUSDLocal").textContent =
     "$" + usd.toLocaleString("en-US", {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " USD = " + parseFloat(local).toLocaleString("en-US", {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " " + cod;
   document.getElementById("notaUSDLocal").textContent =
@@ -794,7 +794,3 @@ document.addEventListener("click", function(e) {
 </script>
 </body>
 </html>
-
-
-
-
