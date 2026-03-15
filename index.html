@@ -738,11 +738,11 @@ function convertirADolar() {
   if (!paisActual) return;
   const monto = parseFloat(document.getElementById("montoLocal").value);
   if (isNaN(monto) || monto < 0) return;
-  const tasa = paisActual[7];
-  const usd = (monto * tasa).toFixed(4);
-  const cod = paisActual[6];
+  const tasa = paisActual;
+  const usd = (monto * tasa).toFixed(2);  // ← CAMBIO 1: de .toFixed(4) a .toFixed(2)
+  const cod = paisActual;
   document.getElementById("displayLocalUSD").textContent =
-    monto.toLocaleString("en-US") + " " + cod + " = $" + parseFloat(usd).toLocaleString("en-US", {minimumFractionDigits: 2, maximumFractionDigits: 4}) + " USD";
+    monto.toLocaleString("en-US", {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " " + cod + " = $" + parseFloat(usd).toLocaleString("en-US", {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " USD";  // ← CAMBIO 2 y 3
   document.getElementById("notaLocalUSD").textContent =
     "Tasa de referencia: 1 " + cod + " ≈ " + tasa + " USD (no es tiempo real)";
   document.getElementById("resultLocalUSD").classList.add("visible");
@@ -752,11 +752,11 @@ function convertirALocal() {
   if (!paisActual) return;
   const usd = parseFloat(document.getElementById("montoUSD").value);
   if (isNaN(usd) || usd < 0) return;
-  const tasa = paisActual[7];
+  const tasa = paisActual;
   const local = (usd / tasa).toFixed(2);
-  const cod = paisActual[6];
+  const cod = paisActual;
   document.getElementById("displayUSDLocal").textContent =
-    "$" + usd.toLocaleString("en-US", {minimumFractionDigits: 2}) + " USD = " + parseFloat(local).toLocaleString("en-US") + " " + cod;
+    "$" + usd.toLocaleString("en-US", {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " USD = " + parseFloat(local).toLocaleString("en-US", {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " " + cod;  // ← CAMBIO 4
   document.getElementById("notaUSDLocal").textContent =
     "Tasa de referencia: 1 USD ≈ " + (1 / tasa).toFixed(4) + " " + cod + " (no es tiempo real)";
   document.getElementById("resultUSDLocal").classList.add("visible");
