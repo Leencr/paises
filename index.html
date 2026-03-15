@@ -747,20 +747,6 @@ function convertirADolar() {
     "Tasa de referencia: 1 " + cod + " ≈ " + tasa + " USD (no es tiempo real)";
   document.getElementById("resultLocalUSD").classList.add("visible");
 }
-  
-function convertirALocal() {
-  if (!paisActual) return;
-  const usd = parseFloat(document.getElementById("montoUSD").value);
-  if (isNaN(usd) || usd < 0) return;
-  const tasa = paisActual;
-  const local = (usd / tasa).toFixed(2);
-  const cod = paisActual;
-  document.getElementById("displayUSDLocal").textContent =
-    "$" + usd.toLocaleString("en-US", {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " USD = " + parseFloat(local).toLocaleString("en-US", {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " " + cod;  // ← CAMBIO 4
-  document.getElementById("notaUSDLocal").textContent =
-    "Tasa de referencia: 1 USD ≈ " + (1 / tasa).toFixed(4) + " " + cod + " (no es tiempo real)";
-  document.getElementById("resultUSDLocal").classList.add("visible");
-}
 
 function convertirALocal() {
   if (!paisActual) return;
@@ -774,6 +760,20 @@ function convertirALocal() {
   document.getElementById("notaUSDLocal").textContent =
     "Tasa de referencia: 1 USD ≈ " + (1 / tasa).toFixed(4) + " " + cod + " (no es tiempo real)";
   document.getElementById("resultUSDLocal").classList.add("visible");
+}
+
+function mostrarSugerencias() {
+  const query = document.getElementById("searchInput").value.toLowerCase().trim();
+  const box = document.getElementById("suggestionBox");
+  if (!query) { box.style.display = "none"; return; }
+  const matches = paises.filter(function(c) {
+    return c[0].toLowerCase().startsWith(query) || c[1].toLowerCase().startsWith(query);
+  }).slice(0, 8);
+  if (matches.length === 0) { box.style.display = "none"; return; }
+  box.innerHTML = matches.map(function(c) {
+    return "<div class=\"suggestion-item\" onclick=\"seleccionarSugerencia('" + c[1] + "')\">" + c[0] + " (" + c[1] + ")</div>";
+  }).join("");
+  box.style.display = "block";
 }
 
 function seleccionarSugerencia(codigo) {
